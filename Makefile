@@ -49,6 +49,7 @@ SRCS = 	$(DIRSLCT)/inits.c \
 		$(DIRSRC)/mvcursor.c \
 		$(DIRSRC)/completion.c \
 		$(DIRSRC)/handlers.c \
+		$(DIRSRC)/launchprogram.c \
 		main.c
 
 # **************************************************************************** #

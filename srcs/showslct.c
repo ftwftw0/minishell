@@ -64,13 +64,13 @@ static void printlist(t_elem *list, int nbcols)
 
 int			showlist(t_elem *list)
 {
-	struct ttysize	ts;
+	struct winsize	ws;
 
-	if (ioctl(0, TIOCGWINSZ, &ts))
+	if (ioctl(0, TIOCGWINSZ, &ws))
 		ft_putstr("Error getting term sizes.");
-	g_ftselect->nbcols = ts.ts_cols / g_ftselect->colsize;
+	g_ftselect->nbcols = ws.ws_col / g_ftselect->colsize;
 	cleanterm();
-	if (g_ftselect->nbcols * (ts.ts_lines - 2) > (g_ftselect->nbelems))
+	if (g_ftselect->nbcols * (ws.ws_row - 2) > (g_ftselect->nbelems))
 		printlist(list, g_ftselect->nbcols);
 	else
 		ft_putstr_fd("SMALL", g_ftselect->fd);

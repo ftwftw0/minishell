@@ -28,33 +28,6 @@ void		set_righthome(t_execdata *data)
 	free(home);
 }
 
-int			launchprogram(t_execdata *data, t_execdata *tmp)
-{
-	pid_t		shell;
-	int			ret;
-
-	if (data->av[0] != NULL)
-	{
-		if ((ret = ((tmp != NULL) ? execbi(tmp->av[0], tmp) :
-				execbi(data->av[0], data))) == 0)
-		{
-			shell = fork();
-			if (shell > 0)
-			{
-				unsetallsignal();
-				wait(&shell);
-				setallsignal();
-			}
-			else if (shell == 0 && childexec(data, tmp) == 1)
-				return (0);
-		}
-		else if (ret == 2)
-			return (2);
-	}
-	ft_freetab(&(data->av));
-	return (1);
-}
-
 int			launchcommands(char *buff, t_execdata *child)
 {
 	char		**commands;
