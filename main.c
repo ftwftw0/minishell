@@ -6,7 +6,7 @@
 /*   By: flagoutt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/11/22 17:00:39 by flagoutt          #+#    #+#             */
-/*   Updated: 2015/05/15 13:11:55 by flagoutt         ###   ########.fr       */
+/*   Updated: 2016/02/04 09:29:16 by flagoutt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,35 @@ void		set_righthome(t_execdata *data)
 	free(home);
 }
 
+int			pipedcommands(char *buff, t_execdata *child)
+{
+	char		**commands;
+	int			pipedfd[2];
+	int			i;
+
+	commands = ft_strsplit(buff, '|');
+	i = -1;
+	pipe(pipedfd);
+	while (commands[++i])
+	{
+		child->av = ft_spacestrsplit(commands[i]);
+		child->fd[0] = 0;
+		child->fd[1] = 1;
+		if (i)
+			child->fd[0] = pipedfd[0];
+		if (commands[i + 1])
+			child->fd[1] = pipedfd[1];
+		printf("fd[0] = %i\nfd[1] = %i\n", child->fd[0], child->fd[1]);
+		if (launchprogram(child, NULL) == 0)
+			return (0);
+		ft_freetab(&(child->av));
+	}
+	close(pipedfd[0]);
+	close(pipedfd[1]);
+	ft_freetab(&commands);
+	return (1);
+}
+
 int			launchcommands(char *buff, t_execdata *child)
 {
 	char		**commands;
@@ -37,10 +66,8 @@ int			launchcommands(char *buff, t_execdata *child)
 	i = -1;
 	while (commands[++i])
 	{
-		child->av = ft_spacestrsplit(commands[i]);
-		if (launchprogram(child, NULL) == 0)
+		if (pipedcommands(commands[i], child) == 0)
 			return (0);
-		ft_freetab(&(child->av));
 	}
 	ft_freetab(&commands);
 	return (1);

@@ -6,7 +6,7 @@
 /*   By: flagoutt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/03/23 17:56:41 by flagoutt          #+#    #+#             */
-/*   Updated: 2015/05/15 11:40:07 by flagoutt         ###   ########.fr       */
+/*   Updated: 2016/02/04 06:44:31 by flagoutt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,8 @@ int			ft_env(t_execdata *data)
 	else
 	{
 		tmp = (t_execdata *)malloc(sizeof(t_execdata));
+		tmp->fd[0] = data->fd[0];
+		tmp->fd[1] = data->fd[1];
 		if (!ft_strcmp(data->av[i], "-i"))
 		{
 			tmp->env = (char **)malloc(sizeof(char *) * (i++));

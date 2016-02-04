@@ -6,15 +6,29 @@
 /*   By: flagoutt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/11/22 17:00:39 by flagoutt          #+#    #+#             */
-/*   Updated: 2015/05/15 12:08:08 by flagoutt         ###   ########.fr       */
+/*   Updated: 2016/02/04 09:06:59 by flagoutt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh1.h"
 
-static void tryexec(const char *path, char *const argv[], char *const envp[])
+static void tryexec(const char *path, const t_execdata *data)
 {
-	execve(path, argv, envp);
+	if (data->fd[1] > 1)
+		dup2(data->fd[1], 1);
+	if (data->fd[0] > 1)
+		dup2(data->fd[0], 0);
+	execve(path, data->av, data->env);
+	printf("FERME TA CHATTE\n");
+
+
+
+
+
+
+
+
+
 }
 
 static void	intopaths(t_execdata *data, t_execdata *tmp)
@@ -33,7 +47,7 @@ static void	intopaths(t_execdata *data, t_execdata *tmp)
 		{
 			free(strpaths);
 			strpaths = ft_strtrijoin(paths[i], "/", data->av[0]);
-			tryexec(strpaths, data->av, data->env);
+			tryexec(strpaths, data);
 			free(paths[i]);
 		}
 		free(paths);
@@ -55,7 +69,7 @@ static void	abspath(t_execdata *data, t_execdata *tmp)
 				path = ft_strjoin(pwd, tmp->av[0]);
 			else
 				path = ft_strjoin(pwd, tmp->av[0] + 1);
-			tryexec(path, tmp->av, tmp->env);
+			tryexec(path, tmp);
 		}
 		else
 		{
@@ -63,11 +77,11 @@ static void	abspath(t_execdata *data, t_execdata *tmp)
 				path = ft_strjoin(pwd, data->av[0]);
 			else
 				path = ft_strjoin(pwd, data->av[0] + 1);
-			tryexec(path, data->av, data->env);
+			tryexec(path, data);
 		}
 		free(path);
 	}
-	tryexec(data->av[0], data->av, data->env);
+	tryexec(data->av[0], data);
 }
 
 static void homepath(t_execdata *data, t_execdata *tmp)
@@ -82,14 +96,14 @@ static void homepath(t_execdata *data, t_execdata *tmp)
 			if (home[ft_strlen(home) - 1] == '/')
 				home[ft_strlen(home) - 1] = '\0';
 			buff = ft_strjoin(home, data->av[0] + 1);
-			tryexec(buff, tmp->av, tmp->env);
+			tryexec(buff, tmp);
 		}
 		else
 		{
 			if (home[ft_strlen(home) - 1] == '/')
 				home[ft_strlen(home) - 1] = '\0';
 			buff = ft_strjoin(home, data->av[0] + 1);
-			tryexec(buff, data->av, data->env);
+			tryexec(buff, data);
 		}
 		free(home);
 		free(buff);

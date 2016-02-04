@@ -6,7 +6,7 @@
 /*   By: flagoutt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/05/10 18:56:47 by flagoutt          #+#    #+#             */
-/*   Updated: 2015/05/15 12:02:40 by flagoutt         ###   ########.fr       */
+/*   Updated: 2016/02/04 06:43:42 by flagoutt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,8 @@ int				init(char **buff, t_execdata **child, char **env)
 		return (0);
 	(*child)->env = ft_tabstrdup(env);
 	set_righthome((*child));
+	(*child)->fd[0] = 0;
+	(*child)->fd[1] = 1;
 	(*child)->av = NULL;
 	if (terminit() == -1)
 		return (-1);
