@@ -6,29 +6,31 @@
 /*   By: flagoutt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/11/22 17:00:39 by flagoutt          #+#    #+#             */
-/*   Updated: 2016/02/04 09:06:59 by flagoutt         ###   ########.fr       */
+/*   Updated: 2016/02/07 06:27:09 by flagoutt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh1.h"
 
-static void tryexec(const char *path, const t_execdata *data)
+static void tryexec(const char *path, t_execdata *data)
 {
 	if (data->fd[1] > 1)
-		dup2(data->fd[1], 1);
-	if (data->fd[0] > 1)
-		dup2(data->fd[0], 0);
+	{
+		if (dup2(data->fd[1], 1) == -1)
+			perror("dup2 stdout");
+		if (close(data->fd[1]) == -1)
+			perror("close pipestdout");
+		data->fd[1] = 1;
+	}
+	if (data->fd[0] > 0)
+	{
+		if (dup2(data->fd[0], 0) == -1)
+			perror("dup2 du stdin");
+		if (close(data->fd[0]) == -1)
+			perror("close pipestdin");
+		data->fd[0] = 0;
+	}
 	execve(path, data->av, data->env);
-	printf("FERME TA CHATTE\n");
-
-
-
-
-
-
-
-
-
 }
 
 static void	intopaths(t_execdata *data, t_execdata *tmp)
