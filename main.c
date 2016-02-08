@@ -6,7 +6,7 @@
 /*   By: flagoutt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/11/22 17:00:39 by flagoutt          #+#    #+#             */
-/*   Updated: 2016/02/07 06:31:17 by flagoutt         ###   ########.fr       */
+/*   Updated: 2016/02/08 06:35:46 by flagoutt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,6 @@ int			pipedcommands(char *buff, t_execdata *child)
 	while (commands[++i])
 	{
 		pipe(pipedfd);
-
 		child->av = ft_spacestrsplit(commands[i]);
 		child->fd[0] = 0;
 		child->fd[1] = 1;
@@ -53,7 +52,6 @@ int			pipedcommands(char *buff, t_execdata *child)
 		if (launchprogram(child, NULL) == 0)
 			return (0);
 		ft_freetab(&(child->av));
-
 		close(pipedfd[1]);
 		fdin = pipedfd[0];
 	}

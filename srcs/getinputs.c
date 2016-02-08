@@ -6,7 +6,7 @@
 /*   By: flagoutt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/05/10 19:12:05 by flagoutt          #+#    #+#             */
-/*   Updated: 2015/05/15 14:46:49 by flagoutt         ###   ########.fr       */
+/*   Updated: 2016/02/08 07:16:55 by flagoutt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static int	checkinputs(char inputs[10], char *buff, char **ptr)
 	if (inputs[0] == 27 && (inputs[2]))
 		mvcursor(inputs, buff, ptr);
 	else if (inputs[0] == '\n')
-		return (0);
+		return (1);
 	else if (inputs[0] == 4)
 	{
 		if (buff[0] == '\0')
@@ -56,7 +56,7 @@ static int	checkinputs(char inputs[10], char *buff, char **ptr)
 		(*ptr)[0] = inputs[0];
 		(*ptr)++;
 	}
-	return (1);
+	return (2);
 }
 
 int			getinputs(char *buff)
@@ -69,7 +69,7 @@ int			getinputs(char *buff)
 	while ((ret = read(0, inputs, 10)) != EOF)
 	{
 		inputs[ret] = '\0';
-		if ((ret = checkinputs(inputs, buff, &ptr)) == 0)
+		if ((ret = checkinputs(inputs, buff, &ptr)) <= 1)
 			break ;
 		else if (ret == -1)
 			return (-1);
