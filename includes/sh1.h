@@ -6,7 +6,7 @@
 /*   By: flagoutt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/03/22 02:00:31 by flagoutt          #+#    #+#             */
-/*   Updated: 2016/02/08 02:26:34 by flagoutt         ###   ########.fr       */
+/*   Updated: 2016/02/09 09:42:10 by flagoutt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ typedef struct	s_execdata
 	char		**env;
 	char		**av;
 	int			fd[MAX_FD];
-	int			pipedfd[2];
+//	int			pipedfd[2];
 }				t_execdata;
 
 int				custom_putchar(int c);

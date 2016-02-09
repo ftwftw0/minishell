@@ -6,7 +6,7 @@
 /*   By: flagoutt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/04 01:07:27 by flagoutt          #+#    #+#             */
-/*   Updated: 2016/02/09 08:58:27 by flagoutt         ###   ########.fr       */
+/*   Updated: 2016/02/09 10:59:36 by flagoutt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,29 +133,30 @@ static int fd_redirect(t_execdata *data, char ***avptra)
 	char	**avptrtmp;
 //	int		pipedfd[2];
 	char	**part;
-	int		ret;
 
-	printf("Redirecting %s\n", *((*avptra) + 1));
-	part = ft_strsplit(*((*avptra) + 1), '>');
-
+	part = ft_strsplit(**avptra, '>');
+	if (!part)
+		return (-1);
 	if (part[0] && part[1] && !part[2])
 	{
+		printf("Redirecting %s to %s\n", part[0], part[1]);
 		if (ft_isnumber(part[0]))
 		{
 			if (part[1][0] == '&')
-				data->fd[ft_atoi(part[0])] = ft_atoi(*(part[1] + 1));
+				data->fd[ft_atoi(part[0])] = ft_atoi((part[1] + 1));
 			else
 				data->fd[ft_atoi(part[0])] = open(*((*avptra) + 1),
 												O_CREAT | O_RDWR | O_APPEND,
 												S_IRUSR | S_IWUSR | S_IRGRP |
 												S_IWGRP | S_IROTH | S_IWOTH);
 		}
+		else
+			return (-1);
 	}
-	else if (part[0])
+	else if (part[0] && !part[1])
 	{
-		data->fd[1] = ft_atoi(**part));
-// WORK HERE
-
+		data->fd[1] = ft_atoi(part[0]);
+		printf("Redirecting stdin to %s\n", part[0]);
 	}
 
 	// REMOVE "*>*" IN THE AV TABLE
@@ -198,8 +199,16 @@ static int	io_redirect(t_execdata *data, t_execdata *tmp)
 			if (in_from_stdin(data, &avptr) == -1)
 				return (-1);
 		}
-		else if (!ft_strchr(*avptr, "<") || !ft_strchr(*avptr, ">"))
-			fd_redirect(data, &avptr);
+		else if (ft_strchr(*avptr, '>'))
+		{
+			if (fd_redirect(data, &avptr) == -1)
+			{
+				perror("invalid fd redirection");
+				return (-1);
+			}
+		}
+		else if (ft_strchr(*avptr, '<'))
+			;
 		else
 			avptr++;
 	}
@@ -231,7 +240,9 @@ int		launchprogram(t_execdata *data, t_execdata *tmp)
 			if (shell > 0)
 			{
 				unsetallsignal();
+		// PENSER A FAIRE LES || ET &&, waitpid(...)
 				wait(&shell);
+		// VOILA
 				if (data->fd[1] > 1)
 					close(data->fd[1]);
 				setallsignal();

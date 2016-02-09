@@ -6,7 +6,7 @@
 /*   By: flagoutt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/05/09 16:51:52 by flagoutt          #+#    #+#             */
-/*   Updated: 2015/05/13 16:27:43 by flagoutt         ###   ########.fr       */
+/*   Updated: 2016/02/09 11:28:08 by flagoutt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,15 @@
 void	deinit(void)
 {
 	char *tmp;
+	int i;
 
+	i = 100;
 	cleanterm();
 	tmp = tgetstr("ve", NULL);
 	tputs(tmp, 1, custom_putchar);
+	tmp = tgetstr("te", NULL);
+	tputs(tmp, 1, custom_putchar);
 	setallsignal();
+	while (i--)
+		tputs(tgetstr("le", NULL), 1, custom_putchar);
 }

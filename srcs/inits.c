@@ -6,7 +6,7 @@
 /*   By: flagoutt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/05/06 20:26:14 by flagoutt          #+#    #+#             */
-/*   Updated: 2015/05/14 17:48:02 by flagoutt         ###   ########.fr       */
+/*   Updated: 2016/02/09 11:26:23 by flagoutt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,9 @@ static int		terminit(void)
 
 	tmp = tgetstr("cb", NULL);
 	tputs(tmp, 1, custom_putchar);
-	tmp = tgetstr("cl", NULL);
-	tputs(tmp, 1, custom_putchar);
 	tmp = tgetstr("vi", NULL);
+	tputs(tmp, 1, custom_putchar);
+	tmp = tgetstr("ti", NULL);
 	tputs(tmp, 1, custom_putchar);
 	cleanterm();
 	return (1);
