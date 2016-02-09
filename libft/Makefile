@@ -6,7 +6,7 @@
 #    By: flagoutt <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2014/11/03 16:32:10 by flagoutt          #+#    #+#              #
-#    Updated: 2015/03/31 16:22:45 by flagoutt         ###   ########.fr        #
+#    Updated: 2016/02/09 07:55:39 by flagoutt         ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -86,6 +86,7 @@ SRC = ft_putchar.c \
 			ft_toupper.c \
 			ft_strndup.c \
 			ft_hidenp.c \
+			ft_isnumber.c \
 			ft_freetab.c
 SRCO = $(SRC:.c=.o)
 INCLUDE = ./

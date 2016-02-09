@@ -6,7 +6,7 @@
 /*   By: flagoutt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/12/03 18:47:07 by flagoutt          #+#    #+#             */
-/*   Updated: 2015/03/31 18:41:48 by flagoutt         ###   ########.fr       */
+/*   Updated: 2016/02/09 07:55:59 by flagoutt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,4 +113,5 @@ char				*ft_strupper(char *str);
 char				*ft_strndup(const char *s1, int n);
 size_t				ft_doublelen(double n);
 void				ft_freetab(char ***tab);
+int					ft_isnumber(char *s);
 #endif

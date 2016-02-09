@@ -6,7 +6,7 @@
 /*   By: flagoutt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/04 01:07:27 by flagoutt          #+#    #+#             */
-/*   Updated: 2016/02/08 08:26:01 by flagoutt         ###   ########.fr       */
+/*   Updated: 2016/02/09 08:58:27 by flagoutt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,14 +16,10 @@ static int out_to_file(t_execdata *data, char ***avptra, int append)
 {
 	char **avptrb;
 	char	**avptrtmp;
-	int		i;
 
 	append = (append) ? O_APPEND : 0;
 	// OPEN 'file' AND FILL data->out AND tmp->out WITH ITS FD (dnt fget 2 close l8r)
-	i = 1;
-	while (data->fd[i] > 1)
-		i++;
-	data->fd[i] = open(*((*avptra) + 1), O_CREAT | O_RDWR | append,
+	data->fd[1] = open(*((*avptra) + 1), O_CREAT | O_RDWR | append,
 					S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH);
 	// REMOVE ">" AND 'file' IN THE AV TABLE
 	avptrb = (*avptra) + 2;
@@ -131,6 +127,53 @@ static int in_from_stdin(t_execdata *data, char ***avptra)
 	return (0);
 }
 
+static int fd_redirect(t_execdata *data, char ***avptra)
+{
+	char	**avptrb;
+	char	**avptrtmp;
+//	int		pipedfd[2];
+	char	**part;
+	int		ret;
+
+	printf("Redirecting %s\n", *((*avptra) + 1));
+	part = ft_strsplit(*((*avptra) + 1), '>');
+
+	if (part[0] && part[1] && !part[2])
+	{
+		if (ft_isnumber(part[0]))
+		{
+			if (part[1][0] == '&')
+				data->fd[ft_atoi(part[0])] = ft_atoi(*(part[1] + 1));
+			else
+				data->fd[ft_atoi(part[0])] = open(*((*avptra) + 1),
+												O_CREAT | O_RDWR | O_APPEND,
+												S_IRUSR | S_IWUSR | S_IRGRP |
+												S_IWGRP | S_IROTH | S_IWOTH);
+		}
+	}
+	else if (part[0])
+	{
+		data->fd[1] = ft_atoi(**part));
+// WORK HERE
+
+	}
+
+	// REMOVE "*>*" IN THE AV TABLE
+	avptrb = (*avptra) + 1;
+	free(*(*avptra));
+	*(*avptra) = NULL;
+	avptrtmp = *avptra;
+	while (*avptrb)
+	{
+		printf("(*avptra)zeub = %s\n", *avptrtmp);
+		*avptrtmp = *avptrb;
+		*avptrb = NULL;
+		avptrtmp++;
+		avptrb++;
+	}
+	return (0);
+}
+
 static int	io_redirect(t_execdata *data, t_execdata *tmp)
 {
 	char **avptr;
@@ -138,6 +181,7 @@ static int	io_redirect(t_execdata *data, t_execdata *tmp)
 	avptr = data->av;
 	ft_memset((void *)data->fd, 0, sizeof(int) * MAX_FD);
 	data->fd[1] = 1;
+	data->fd[2] = 2;
 	while (*avptr)
 	{
 		if (!ft_strcmp(*avptr, ">") && *(avptr + 1) != NULL)
@@ -154,6 +198,8 @@ static int	io_redirect(t_execdata *data, t_execdata *tmp)
 			if (in_from_stdin(data, &avptr) == -1)
 				return (-1);
 		}
+		else if (!ft_strchr(*avptr, "<") || !ft_strchr(*avptr, ">"))
+			fd_redirect(data, &avptr);
 		else
 			avptr++;
 	}
