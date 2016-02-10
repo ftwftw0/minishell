@@ -6,7 +6,7 @@
 /*   By: flagoutt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/11/22 17:00:39 by flagoutt          #+#    #+#             */
-/*   Updated: 2016/02/08 06:35:46 by flagoutt         ###   ########.fr       */
+/*   Updated: 2016/02/10 06:37:27 by flagoutt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,13 +42,18 @@ int			pipedcommands(char *buff, t_execdata *child)
 	{
 		pipe(pipedfd);
 		child->av = ft_spacestrsplit(commands[i]);
+		ft_memset((void *)(child->fd), 0, sizeof(int) * MAX_FD);
 		child->fd[0] = 0;
 		child->fd[1] = 1;
+		child->fd[2] = 2;
 		if (i)
 			child->fd[0] = fdin;
 		if (commands[i + 1])
+		{
+			printf("Not last pipe\n");
 			child->fd[1] = pipedfd[1];
-		printf("fd[0] = %i\nfd[1] = %i\n", child->fd[0], child->fd[1]);
+		}
+		printf("fd[0] = %i\nfd[1] = %i\nfd[2] = %i\n", child->fd[0], child->fd[1], child->fd[2]);
 		if (launchprogram(child, NULL) == 0)
 			return (0);
 		ft_freetab(&(child->av));

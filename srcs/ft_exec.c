@@ -6,7 +6,7 @@
 /*   By: flagoutt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/11/22 17:00:39 by flagoutt          #+#    #+#             */
-/*   Updated: 2016/02/08 02:29:31 by flagoutt         ###   ########.fr       */
+/*   Updated: 2016/02/10 06:43:58 by flagoutt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,22 +14,26 @@
 
 static void tryexec(const char *path, t_execdata *data)
 {
-	int i;
-
-	i = 1;
-	while (data->fd[i] > 1)
+	if (data->fd[2] != 2)
 	{
-		if (dup2(data->fd[i], 1) == -1)
+		if (dup2(data->fd[2], 2) == -1)
 			perror("dup2 stdout");
-		if (close(data->fd[i]) == -1)
+		if (close(data->fd[2]) == -1)
 			perror("close pipestdout");
-		data->fd[i] = 1;
-		i++;
+		data->fd[2] = 2;
 	}
-	if (data->fd[0] > 0)
+	if (data->fd[1] != 1)
+	{
+		if (dup2(data->fd[1], 1) == -1)
+			perror("dup2 stdout");
+		if (close(data->fd[1]) == -1)
+			perror("close pipestdout");
+		data->fd[1] = 1;
+	}
+	if (data->fd[0] != 0)
 	{
 		if (dup2(data->fd[0], 0) == -1)
-			perror("dup2 du stdin");
+				perror("dup2 du stdin");
 		if (close(data->fd[0]) == -1)
 			perror("close pipestdin");
 		data->fd[0] = 0;

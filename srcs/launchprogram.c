@@ -6,7 +6,7 @@
 /*   By: flagoutt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/04 01:07:27 by flagoutt          #+#    #+#             */
-/*   Updated: 2016/02/09 10:59:36 by flagoutt         ###   ########.fr       */
+/*   Updated: 2016/02/10 14:03:33 by flagoutt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,9 +131,10 @@ static int fd_redirect(t_execdata *data, char ***avptra)
 {
 	char	**avptrb;
 	char	**avptrtmp;
-//	int		pipedfd[2];
+	int		append;
 	char	**part;
 
+	append = (*(ft_strchr(**avptra, '>') + 1) == '>') ? O_APPEND : 0;
 	part = ft_strsplit(**avptra, '>');
 	if (!part)
 		return (-1);
@@ -145,10 +146,12 @@ static int fd_redirect(t_execdata *data, char ***avptra)
 			if (part[1][0] == '&')
 				data->fd[ft_atoi(part[0])] = ft_atoi((part[1] + 1));
 			else
-				data->fd[ft_atoi(part[0])] = open(*((*avptra) + 1),
-												O_CREAT | O_RDWR | O_APPEND,
+			{
+				data->fd[ft_atoi(part[0])] = open(part[1],
+												O_CREAT | O_RDWR | append,
 												S_IRUSR | S_IWUSR | S_IRGRP |
 												S_IWGRP | S_IROTH | S_IWOTH);
+			}
 		}
 		else
 			return (-1);
@@ -180,9 +183,6 @@ static int	io_redirect(t_execdata *data, t_execdata *tmp)
 	char **avptr;
 
 	avptr = data->av;
-	ft_memset((void *)data->fd, 0, sizeof(int) * MAX_FD);
-	data->fd[1] = 1;
-	data->fd[2] = 2;
 	while (*avptr)
 	{
 		if (!ft_strcmp(*avptr, ">") && *(avptr + 1) != NULL)
