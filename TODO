@@ -4,3 +4,4 @@ Editeur de commandes :
 - effacement qui doit redecaler vers la gauche la string
 - Ctrl-C pour les <<
 - Eventuellement les || et && grace a waitpid
+- aggregations sans partie a gauche des fleches
