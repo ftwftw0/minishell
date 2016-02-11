@@ -6,7 +6,7 @@
 /*   By: flagoutt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/05/11 19:53:47 by flagoutt          #+#    #+#             */
-/*   Updated: 2015/05/15 13:24:40 by flagoutt         ###   ########.fr       */
+/*   Updated: 2016/02/11 13:13:27 by flagoutt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,8 +71,8 @@ static void		completionnext(t_elem *list, char *tmp, char *buff, char **ptr)
 			ft_strcpy(tmp + 2, ptrr);
 		else
 			ft_strcpy(tmp, ptrr);
-		(*ptr) = &(buff[ft_strlen(buff)]);
 	}
+	(*ptr) = &(buff[ft_strlen(buff)]);
 }
 
 void			completion(char *buff, char **ptr)
