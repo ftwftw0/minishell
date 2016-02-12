@@ -6,7 +6,7 @@
 #    By: flagoutt <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/03/05 17:59:57 by flagoutt          #+#    #+#              #
-#    Updated: 2016/02/04 01:28:55 by flagoutt         ###   ########.fr        #
+#    Updated: 2016/02/12 16:00:16 by flagoutt         ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -50,6 +50,7 @@ SRCS = 	$(DIRSLCT)/inits.c \
 		$(DIRSRC)/completion.c \
 		$(DIRSRC)/handlers.c \
 		$(DIRSRC)/launchprogram.c \
+		$(DIRSRC)/add_str_to_tab.c \
 		main.c
 
 # **************************************************************************** #

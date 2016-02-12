@@ -6,7 +6,7 @@
 /*   By: flagoutt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/05/10 18:56:47 by flagoutt          #+#    #+#             */
-/*   Updated: 2016/02/04 06:43:42 by flagoutt         ###   ########.fr       */
+/*   Updated: 2016/02/12 16:23:58 by flagoutt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,12 +37,42 @@ static int		terminit(void)
 	return (1);
 }
 
-int				init(char **buff, t_execdata **child, char **env)
+static int		loadhistory(t_history *history, char **env)
+{
+	char	*home;
+	char	*tmp;
+//	int		ret;
+
+	history->history = (char **)malloc(sizeof(char *) * 1);
+	history->history[0] = NULL;
+	if (!env || !(env[0]) || (home = ft_getenv(env, "HOME")) ||
+		!(tmp = ft_strjoin(home, "/.myshhistory")) ||
+		(history->fd = open(tmp, O_CREAT | O_RDWR | O_APPEND, 0644)) == -1)
+	{
+		perror("there is no command history file");
+		history->fd = 0;
+		return (0);
+	}
+	free(home);
+	free(tmp);
+	while (get_next_line(history->fd, &tmp) > 0)
+	{
+		printf("%s\n", tmp);
+	}
+
+	return (1);
+}
+
+int				init(char **buff, t_execdata **child, char **env, t_history **history)
 {
 	if (((*buff) = (char *)malloc(sizeof(char) * BUFF_SIZE + 1)) == NULL)
-		return (0);
+		return (-1);
+	if (((*history) = (t_history *)malloc(sizeof(t_history))) == NULL ||
+		loadhistory(*history, env) == -1)
+		return (-1);
+	if (0) loadhistory(*history, env);
 	if (((*child) = (t_execdata *)malloc(sizeof(t_execdata))) == NULL)
-		return (0);
+		return (-1);
 	(*child)->env = ft_tabstrdup(env);
 	set_righthome((*child));
 	(*child)->fd[0] = 0;

@@ -6,7 +6,7 @@
 /*   By: flagoutt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/05/10 19:12:05 by flagoutt          #+#    #+#             */
-/*   Updated: 2016/02/12 12:04:14 by flagoutt         ###   ########.fr       */
+/*   Updated: 2016/02/12 15:00:22 by flagoutt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ int			getinputs(char *buff)
 	int		ret;
 
 	ptr = buff;
-	while ((ret = read(0, inputs, 10)) != EOF)
+	while ((ret = read(0, inputs, 10)) > 0)
 	{
 		inputs[ret] = '\0';
 		if ((ret = checkinputs(inputs, buff, &ptr)) <= 1)

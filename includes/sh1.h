@@ -6,7 +6,7 @@
 /*   By: flagoutt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/03/22 02:00:31 by flagoutt          #+#    #+#             */
-/*   Updated: 2016/02/09 09:42:10 by flagoutt         ###   ########.fr       */
+/*   Updated: 2016/02/12 16:01:11 by flagoutt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,16 @@ typedef struct	s_execdata
 	char		**env;
 	char		**av;
 	int			fd[MAX_FD];
-//	int			pipedfd[2];
 }				t_execdata;
+
+typedef struct	s_history
+{
+	char		**history;
+	char		*current;
+	int			fd;
+}				t_history;
+
+
 
 int				custom_putchar(int c);
 int				showprompt(char *currentdir);
@@ -60,7 +68,7 @@ void			handler(int signal);
 void			unhandler(int signal);
 int				launchprogram(t_execdata *data, t_execdata *tmp);
 int				getinputs(char *buff);
-int				init(char **buff, t_execdata **child, char **env);
+int				init(char **buff, t_execdata **child, char **env, t_history **history);
 void			set_righthome(t_execdata *data);
 void			mvcursor(char inputs[10], char *buff, char **ptr);
 void			mvcright(void);
@@ -68,4 +76,6 @@ void			mvcleft(void);
 void			mvctop(void);
 void			mvcbot(void);
 void			completion(char *buff, char **ptr);
+int				add_str_to_tab(char ***strtab, const char *str);
+
 #endif
