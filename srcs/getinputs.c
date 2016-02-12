@@ -6,7 +6,7 @@
 /*   By: flagoutt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/05/10 19:12:05 by flagoutt          #+#    #+#             */
-/*   Updated: 2016/02/11 16:35:30 by flagoutt         ###   ########.fr       */
+/*   Updated: 2016/02/12 12:04:14 by flagoutt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,11 +54,10 @@ static int	checkinputs(char inputs[10], char *buff, char **ptr)
 		completion(buff, ptr);
 	else if (ft_isprint(inputs[0]))
 	{
-		ft_memcpy((*ptr) + 1, (*ptr), ft_strlen((*ptr)));
+		ft_memmove((*ptr) + 1, (*ptr), ft_strlen((*ptr)));
 		(*ptr)[0] = inputs[0];
-
 		ft_putstr(*ptr);
-		
+
 		i = ft_strlen(*ptr);
 		while (--i)
 			mvcleft();

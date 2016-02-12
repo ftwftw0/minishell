@@ -1,5 +1,4 @@
 Editeur de commandes :
-- insertion et non remplacage
 - fleches gauche/droite pour se deplacer sur plusieurs lignes (pas seulement termcaps le et ri)
 - effacement qui doit redecaler vers la gauche la string
 - Ctrl-C pour les <<
