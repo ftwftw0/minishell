@@ -6,7 +6,7 @@
 /*   By: flagoutt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/04 01:07:27 by flagoutt          #+#    #+#             */
-/*   Updated: 2016/02/10 14:03:33 by flagoutt         ###   ########.fr       */
+/*   Updated: 2016/02/12 17:37:57 by flagoutt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ static int in_from_stdin(t_execdata *data, char ***avptra)
 	{
 		ft_bzero(buff, BUFF_SIZE);
 		ft_putstr("heredoc > ");
-		if ((ret = getinputs(buff)) < 1)
+		if ((ret = getinputs(buff, NULL)) < 1)
 			break ;
 		if (!ft_strcmp(buff, *((*avptra) + 1)))
 			break ;

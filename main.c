@@ -6,7 +6,7 @@
 /*   By: flagoutt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/11/22 17:00:39 by flagoutt          #+#    #+#             */
-/*   Updated: 2016/02/12 15:38:45 by flagoutt         ###   ########.fr       */
+/*   Updated: 2016/02/12 17:37:13 by flagoutt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,7 @@ int			main(int argc, char **argv, char **env)
 		getcwd(buff, BUFF_SIZE);
 		showprompt(buff);
 		ft_bzero(buff, BUFF_SIZE);
-		if ((getinputs(buff) == -1))
+		if ((getinputs(buff, history) == -1))
 			break ;
 		else if (launchcommands(buff, child) == 0)
 			return (0);

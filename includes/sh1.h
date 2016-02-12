@@ -6,7 +6,7 @@
 /*   By: flagoutt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/03/22 02:00:31 by flagoutt          #+#    #+#             */
-/*   Updated: 2016/02/12 16:01:11 by flagoutt         ###   ########.fr       */
+/*   Updated: 2016/02/12 17:35:34 by flagoutt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,10 +67,10 @@ void			unsetallsignal(void);
 void			handler(int signal);
 void			unhandler(int signal);
 int				launchprogram(t_execdata *data, t_execdata *tmp);
-int				getinputs(char *buff);
+int				getinputs(char *buff, t_history *history);
 int				init(char **buff, t_execdata **child, char **env, t_history **history);
 void			set_righthome(t_execdata *data);
-void			mvcursor(char inputs[10], char *buff, char **ptr);
+void			mvcursor(char inputs[10], char *buff, char **ptr, t_history *history);
 void			mvcright(void);
 void			mvcleft(void);
 void			mvctop(void);

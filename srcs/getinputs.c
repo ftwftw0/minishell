@@ -6,7 +6,7 @@
 /*   By: flagoutt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/05/10 19:12:05 by flagoutt          #+#    #+#             */
-/*   Updated: 2016/02/12 15:00:22 by flagoutt         ###   ########.fr       */
+/*   Updated: 2016/02/12 17:36:53 by flagoutt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,14 +34,17 @@ static void	mvbackspace(char *buff, char **ptr)
 	}
 }
 
-static int	checkinputs(char inputs[10], char *buff, char **ptr)
+static int	checkinputs(char inputs[10], char *buff, char **ptr, t_history *history)
 {
 	int i;
 
 	if (inputs[0] == 27 && (inputs[2]))
-		mvcursor(inputs, buff, ptr);
+		mvcursor(inputs, buff, ptr, history);
 	else if (inputs[0] == '\n')
+	{
+		add_str_to_tab(&(history->history), buff);
 		return (1);
+	}
 	else if (inputs[0] == 4)
 	{
 		if (buff[0] == '\0')
@@ -66,7 +69,7 @@ static int	checkinputs(char inputs[10], char *buff, char **ptr)
 	return (2);
 }
 
-int			getinputs(char *buff)
+int			getinputs(char *buff, t_history *history)
 {
 	char	inputs[10];
 	char	*ptr;
@@ -76,7 +79,7 @@ int			getinputs(char *buff)
 	while ((ret = read(0, inputs, 10)) > 0)
 	{
 		inputs[ret] = '\0';
-		if ((ret = checkinputs(inputs, buff, &ptr)) <= 1)
+		if ((ret = checkinputs(inputs, buff, &ptr, history)) <= 1)
 			break ;
 		else if (ret == -1)
 			return (-1);

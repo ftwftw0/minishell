@@ -6,7 +6,7 @@
 /*   By: flagoutt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/05/10 21:49:56 by flagoutt          #+#    #+#             */
-/*   Updated: 2015/05/15 14:00:13 by flagoutt         ###   ########.fr       */
+/*   Updated: 2016/02/12 17:40:02 by flagoutt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,16 +44,19 @@ void	mvcright(void)
 	tputs(tmp, 1, custom_putchar);
 }
 
-void	mvcursor(char inputs[10], char *buff, char **ptr)
+void	mvcursor(char inputs[10], char *buff, char **ptr, t_history *history)
 {
-	if (inputs[2] == 'A')
-		(0) ? mvctop() : (void)inputs;
+	if (inputs[2] == 'A' && history)
+	{
+		if (buff && history->history[0])
+			ft_strcpy(buff, history->history[0]);
+	}
 	else if (inputs[2] == 'D' && buff < (*ptr))
 	{
 		mvcleft();
 		(*ptr)--;
 	}
-	else if (inputs[2] == 'B')
+	else if (inputs[2] == 'B' && history)
 		(0) ? mvcbot() : (void)inputs;
 	else if (inputs[2] == 'C' && *(*ptr))
 	{

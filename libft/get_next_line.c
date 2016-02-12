@@ -6,7 +6,7 @@
 /*   By: flagoutt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/01/18 16:20:34 by flagoutt          #+#    #+#             */
-/*   Updated: 2015/03/09 15:55:15 by flagoutt         ###   ########.fr       */
+/*   Updated: 2016/02/12 17:17:25 by flagoutt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,9 @@ int		ft_readfile(char **str, int fd)
 		if (ft_strlen(buff) != (unsigned int)ret)
 			return (-1);
 		strsize += ret;
-		tmpstr = ft_strdup(*str);
+		tmpstr = *str;
 		*str = ft_strjoin(tmpstr, buff);
+		free(tmpstr);
 	}
 	free(buff);
 	if (ret < 0)
@@ -54,7 +55,7 @@ int		ft_testdata(t_gnldata *data, char **line, int fd)
 	if ((*data).fileended == 1)
 		return (0);
 	if (!(*data).text)
-		(*data).text = ft_strnew(1);
+		(*data).text = ft_strnew(0);
 	if ((i = ft_readfile(&((*data).text), fd)) > 0)
 		(*data).txtsize = i;
 	if (i == -1)
@@ -98,6 +99,7 @@ int		get_next_line(int fd, char **line)
 	if (data == NULL)
 	{
 		data = (t_gnldata *)malloc(sizeof(t_gnldata));
+		ft_bzero(data, sizeof(t_gnldata));
 		data->fd = fd;
 		return (ft_gnl(fd, line, data));
 	}
