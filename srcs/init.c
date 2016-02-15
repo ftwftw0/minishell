@@ -6,7 +6,7 @@
 /*   By: flagoutt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/05/10 18:56:47 by flagoutt          #+#    #+#             */
-/*   Updated: 2016/02/12 17:44:04 by flagoutt         ###   ########.fr       */
+/*   Updated: 2016/02/15 18:44:43 by flagoutt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,14 +55,14 @@ static int		loadhistory(t_history *history, char **env)
 	free(home);
 	free(tmp);
 	tmp = NULL;
-//	int i = 0;
+	int i = 0;
 	
 	// HERE YOU HAVE TO MODIFYYYYY
 
 	while (get_next_line(history->fd, &tmp) >= 0)
 	{
 		add_str_to_tab(&(history->history), tmp);
-//		printf("%s\n", history->history[i++]);
+		printf("%s\n", history->history[i++]);
 		free(tmp);
 		tmp = NULL;
 	}
@@ -76,6 +76,7 @@ int				init(char **buff, t_execdata **child, char **env, t_history **history)
 	if (((*history) = (t_history *)malloc(sizeof(t_history))) == NULL ||
 		loadhistory(*history, env) == -1)
 		return (-1);
+	(*history)->current = (*history)->history[ft_tablen((*history)->history) - 1];
 	if (((*child) = (t_execdata *)malloc(sizeof(t_execdata))) == NULL)
 		return (-1);
 	(*child)->env = ft_tabstrdup(env);

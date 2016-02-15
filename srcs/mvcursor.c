@@ -6,7 +6,7 @@
 /*   By: flagoutt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/05/10 21:49:56 by flagoutt          #+#    #+#             */
-/*   Updated: 2016/02/12 17:40:02 by flagoutt         ###   ########.fr       */
+/*   Updated: 2016/02/15 18:47:07 by flagoutt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,12 @@ void	mvcursor(char inputs[10], char *buff, char **ptr, t_history *history)
 {
 	if (inputs[2] == 'A' && history)
 	{
-		if (buff && history->history[0])
-			ft_strcpy(buff, history->history[0]);
+		if (buff && history->current)
+		{
+			// Verify address comparison, cuz it sucks right now
+			history->current = (history->current > *(history->history)) ? history->current - 1 : history->current;
+			ft_strcpy(buff, history->current);
+		}
 	}
 	else if (inputs[2] == 'D' && buff < (*ptr))
 	{
