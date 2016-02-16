@@ -6,7 +6,7 @@
 /*   By: flagoutt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/05/11 19:53:47 by flagoutt          #+#    #+#             */
-/*   Updated: 2016/02/11 13:13:27 by flagoutt         ###   ########.fr       */
+/*   Updated: 2016/02/16 12:18:15 by flagoutt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,6 @@ static t_elem	*ft_creatlist(char *buff)
 static void		completionnext(t_elem *list, char *tmp, char *buff, char **ptr)
 {
 	char	*ptrr;
-	int		i;
 
 	if (list->next == NULL)
 	{
@@ -61,9 +60,7 @@ static void		completionnext(t_elem *list, char *tmp, char *buff, char **ptr)
 										ft_strcpy(tmp, list->name);
 		tmp = tgetstr("cb", NULL);
 		tputs(tmp, 1, custom_putchar);
-		i = 1000;
-		while (i--)
-			mvcleft();
+		mvcleft(1000);
 	}
 	else if ((ptrr = ft_select(list)))
 	{

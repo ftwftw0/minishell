@@ -6,7 +6,7 @@
 /*   By: flagoutt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/05/10 19:12:05 by flagoutt          #+#    #+#             */
-/*   Updated: 2016/02/12 17:36:53 by flagoutt         ###   ########.fr       */
+/*   Updated: 2016/02/16 16:43:38 by flagoutt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,33 +16,38 @@ static void	mvbackspace(char *buff, char **ptr)
 {
 	char	*tmp;
 	int		i;
-	int		j;
 
 	tmp = (*ptr);
-	j = 0;
 	if ((*ptr) > buff)
 	{
 		i = ft_strlen(tmp);
 		(*ptr)--;
-		mvcleft();
+		mvcleft(1);
 		ft_putstr((tmp));
 		ft_putchar(' ');
 		ft_strcpy((*ptr), tmp);
-		j = 0;
-		while (j++ <= i)
-			mvcleft();
+		mvcleft(i);
 	}
 }
 
 static int	checkinputs(char inputs[10], char *buff, char **ptr, t_history *history)
 {
-	int i;
-
 	if (inputs[0] == 27 && (inputs[2]))
 		mvcursor(inputs, buff, ptr, history);
 	else if (inputs[0] == '\n')
 	{
-		add_str_to_tab(&(history->history), buff);
+		if (buff[0])
+		{
+			if (history->history[history->size])
+			{
+				free(history->history[history->size]);
+				history->history[history->size] = NULL;
+			}
+			add_str_to_tab(&(history->history), buff);
+			history->current = history->size;
+			history->size++;
+		}
+		history->current = ft_tablen(history->history);
 		return (1);
 	}
 	else if (inputs[0] == 4)
@@ -60,10 +65,7 @@ static int	checkinputs(char inputs[10], char *buff, char **ptr, t_history *histo
 		ft_memmove((*ptr) + 1, (*ptr), ft_strlen((*ptr)));
 		(*ptr)[0] = inputs[0];
 		ft_putstr(*ptr);
-
-		i = ft_strlen(*ptr);
-		while (--i)
-			mvcleft();
+		mvcleft(ft_strlen(*ptr) - 1);
 		(*ptr)++;
 	}
 	return (2);

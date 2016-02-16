@@ -6,7 +6,7 @@
 /*   By: flagoutt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/03/22 02:00:31 by flagoutt          #+#    #+#             */
-/*   Updated: 2016/02/12 17:35:34 by flagoutt         ###   ########.fr       */
+/*   Updated: 2016/02/16 13:40:58 by flagoutt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,11 +41,10 @@ typedef struct	s_execdata
 typedef struct	s_history
 {
 	char		**history;
-	char		*current;
+	int			current;
+	int			size;
 	int			fd;
 }				t_history;
-
-
 
 int				custom_putchar(int c);
 int				showprompt(char *currentdir);
@@ -72,7 +71,7 @@ int				init(char **buff, t_execdata **child, char **env, t_history **history);
 void			set_righthome(t_execdata *data);
 void			mvcursor(char inputs[10], char *buff, char **ptr, t_history *history);
 void			mvcright(void);
-void			mvcleft(void);
+void			mvcleft(int size);
 void			mvctop(void);
 void			mvcbot(void);
 void			completion(char *buff, char **ptr);

@@ -6,7 +6,7 @@
 /*   By: flagoutt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/05/10 21:49:56 by flagoutt          #+#    #+#             */
-/*   Updated: 2016/02/15 18:47:07 by flagoutt         ###   ########.fr       */
+/*   Updated: 2016/02/16 17:43:44 by flagoutt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,12 +28,13 @@ void	mvcbot(void)
 	tputs(tmp, 1, custom_putchar);
 }
 
-void	mvcleft(void)
+void	mvcleft(int size)
 {
 	char *tmp;
 
 	tmp = tgetstr("le", NULL);
-	tputs(tmp, 1, custom_putchar);
+	while (size--)
+		tputs(tmp, 1, custom_putchar);
 }
 
 void	mvcright(void)
@@ -48,20 +49,48 @@ void	mvcursor(char inputs[10], char *buff, char **ptr, t_history *history)
 {
 	if (inputs[2] == 'A' && history)
 	{
-		if (buff && history->current)
+		if (buff && history->current > 0)
 		{
-			// Verify address comparison, cuz it sucks right now
-			history->current = (history->current > *(history->history)) ? history->current - 1 : history->current;
-			ft_strcpy(buff, history->current);
+			if (history->current == history->size)
+			{
+				if (history->history[history->size])
+					free(history->history[history->size]);
+				history->history[history->size] = ft_strdup(buff);
+			}
+			history->current--;
+			mvcleft(*ptr - buff);
+			ft_memset(buff, ' ', ft_strlen(buff));
+			ft_putstr(buff);
+			mvcleft(ft_strlen(buff));
+			ft_bzero(buff, BUFF_SIZE);
+			ft_strcpy(buff, history->history[history->current]);
+			ft_putstr(buff);
+			*ptr = buff + ft_strlen(buff);
+			**ptr = '\0';
 		}
 	}
 	else if (inputs[2] == 'D' && buff < (*ptr))
 	{
-		mvcleft();
+		mvcleft(1);
 		(*ptr)--;
 	}
 	else if (inputs[2] == 'B' && history)
-		(0) ? mvcbot() : (void)inputs;
+	{
+		if (buff && (history->current < history->size))
+		{
+			history->current++;
+			ft_memset(buff, ' ', ft_strlen(buff));
+			mvcleft(*ptr - buff);
+			ft_putstr(buff);
+			mvcleft(ft_strlen(buff));
+			ft_bzero(buff, BUFF_SIZE);
+			if (history->history[history->current] != NULL)
+				ft_strcpy(buff, history->history[history->current]);
+			ft_putstr(buff);
+			*ptr = buff + ft_strlen(buff);
+			**ptr = '\0';
+		}
+	}
 	else if (inputs[2] == 'C' && *(*ptr))
 	{
 		mvcright();
