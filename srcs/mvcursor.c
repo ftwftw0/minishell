@@ -49,7 +49,7 @@ void	mvcursor(char inputs[10], char *buff, char **ptr, t_history *history)
 {
 	if (inputs[2] == 'A' && history)
 	{
-		if (buff && history->current > 0)
+		if (buff && history->current > 0 && history->size > 0)
 		{
 			if (history->current == history->size)
 			{

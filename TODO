@@ -1,6 +1,5 @@
 Editeur de commandes :
 - fleches gauche/droite pour se deplacer sur plusieurs lignes (pas seulement termcaps le et ri)
-- effacement qui doit redecaler vers la gauche la string
 - Ctrl-C pour les <<
 - Eventuellement les || et && grace a waitpid
 - aggregations sans partie a gauche des fleches

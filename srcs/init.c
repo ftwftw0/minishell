@@ -58,10 +58,13 @@ static int		loadhistory(t_history *history, char **env)
 	tmp = NULL;
 	while (get_next_line(history->fd, &tmp) >= 0)
 	{
-		add_str_to_tab(&(history->history), tmp);
+	  if (tmp && tmp[0] && tmp[0] != '\n')
+	    {
+	      add_str_to_tab(&(history->history), tmp);
 		free(tmp);
 		tmp = NULL;
 		history->size++;
+	    }
 	}
 	return (1);
 }
