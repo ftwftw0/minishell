@@ -19,7 +19,7 @@ void	*ft_memmove(void *s1, const void *s2, size_t n)
 	char		*s2temp;
 
 	if (!(s2temp = (char *)malloc(n + 1)))
-		exit(0);
+	  exit(0);
 	ft_memcpy(s2temp, s2, n);
 	ft_memcpy(s1, s2temp, n);
 	free(s2temp);

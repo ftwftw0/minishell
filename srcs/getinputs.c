@@ -6,7 +6,7 @@
 /*   By: flagoutt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/05/10 19:12:05 by flagoutt          #+#    #+#             */
-/*   Updated: 2016/02/16 16:43:38 by flagoutt         ###   ########.fr       */
+/*   Updated: 2016/03/02 16:08:41 by flagoutt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,45 +28,6 @@ static void	mvbackspace(char *buff, char **ptr)
 		ft_strcpy((*ptr), tmp);
 		mvcleft(i + 1);
 	}
-}
-
-static void	copycutpaste(char inputs[3], char *buff, char **ptr)
-{
-  static int	startpos = -1;
-  static char	copy[BUFF_SIZE];
-
-  if (inputs[0] == -61 && inputs[1] == -89) // Copy - Alt^C
-    {
-      if (startpos == -1) // Start copy
-	{
-	  startpos = *ptr - buff;
-	  ft_putstr("\033[7m");
-	  ft_putchar(**ptr);
-	  ft_putstr("\033[00m");
-	  mvcleft(1);
-	}
-      else
-	{
-	  mvcleft(*ptr - buff - startpos);
-	  *ptr = &buff[startpos];
-	  ft_putstr(*ptr);
-	  mvcleft(ft_strlen(*ptr));
-	  ft_strncpy(copy, &buff[startpos], *ptr - buff - startpos);
-//	  printf("just copied : %s\n", copy);
-	  startpos = -1;
-	}
-    }
-  else if (inputs[0] == -30 && inputs[1] == -119) // Cut - Alt^X
-    {
-	  startpos = -1;
-	  tputs(tgetstr("me", NULL), 1, custom_putchar);
-	  ft_strncpy(copy, &buff[startpos], *ptr - buff - startpos);
-    }
-  else if (inputs[0] == -30 && inputs[1] == -120) // Paste - Alt^X
-    {
-      ft_strncpy(*ptr, copy, ft_strlen(copy));
-    }
-
 }
 
 static int	checkinputs(char inputs[3], char *buff, char **ptr, t_history *history)
@@ -103,6 +64,16 @@ static int	checkinputs(char inputs[3], char *buff, char **ptr, t_history *histor
 		completion(buff, ptr);
 	else if (inputs[0] < 0) // Alt-C pour debuter le copier
 	  copycutpaste(inputs, buff, ptr);
+	else if (inputs[0] == 1) // Ctrl-A pour aller en debut de ligne
+	{
+		mvcleft(*ptr - buff);
+		*ptr = buff;
+	}
+	else if (inputs[0] == 5) // Ctrl-E pour aller en fin de ligne
+	{
+		mvcright(ft_strlen(*ptr));
+		*ptr = &(*ptr)[ft_strlen(*ptr)];
+	}
 	else if (ft_isprint(inputs[0]))
 	{
 		ft_memmove((*ptr) + 1, (*ptr), ft_strlen((*ptr)));

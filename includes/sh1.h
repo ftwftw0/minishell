@@ -6,7 +6,7 @@
 /*   By: flagoutt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/03/22 02:00:31 by flagoutt          #+#    #+#             */
-/*   Updated: 2016/02/16 13:40:58 by flagoutt         ###   ########.fr       */
+/*   Updated: 2016/03/02 16:05:00 by flagoutt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,11 +70,11 @@ int				getinputs(char *buff, t_history *history);
 int				init(char **buff, t_execdata **child, char **env, t_history **history);
 void			set_righthome(t_execdata *data);
 void			mvcursor(char inputs[10], char *buff, char **ptr, t_history *history);
-void			mvcright(void);
+void			mvcright(int size);
 void			mvcleft(int size);
 void			mvctop(void);
 void			mvcbot(void);
 void			completion(char *buff, char **ptr);
 int				add_str_to_tab(char ***strtab, const char *str);
-
+void			copycutpaste(char inputs[3], char *buff, char **ptr);
 #endif
