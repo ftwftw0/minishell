@@ -1,7 +1,18 @@
 Editeur de commandes :
-- fleches gauche/droite pour se deplacer sur plusieurs lignes (pas seulement termcaps le et ri)
+
 - Ctrl-C pour les <<
 - Copier coller selection : si pt de depart > pt d'arriver
 - Eventuellement les || et && grace a waitpid
 - aggregations sans partie a gauche des fleches
 - leaks
+- Aller directement au début et à la fin d’une ligne avec home et end.
+
+- Ecrire ET éditer une commande sur plusieurs lignes. Dans ce cas, on apprecierait que ctrl+UP et ctrl+DOWN permettent de passer d’une ligne à l’autre de la commande en restant sur la même colonne ou la colonne la plus appropriée sinon.
+fleches gauche/droite pour se deplacer sur plusieurs lignes (pas seulement termcaps le et ri)
+
+- Si une partie parenthésée de la commande n’est pas refermée avant l’appui sur la
+touche return, le shell revient à la ligne et attend la fin de la commande. Par
+partie parenthésée, on entend une partie de la commande entre quotes, doubles
+quotes, back quotes, parenthèses, crochets, accolades, etc.
+
+- ctrl+D et ctrl+C dans l’édition de la ligne ?!?!?!!!
