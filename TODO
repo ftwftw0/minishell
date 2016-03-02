@@ -1,6 +1,7 @@
 Editeur de commandes :
 - fleches gauche/droite pour se deplacer sur plusieurs lignes (pas seulement termcaps le et ri)
 - Ctrl-C pour les <<
+- Copier coller selection : si pt de depart > pt d'arriver
 - Eventuellement les || et && grace a waitpid
 - aggregations sans partie a gauche des fleches
 - leaks

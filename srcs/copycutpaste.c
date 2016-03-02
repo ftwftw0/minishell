@@ -6,20 +6,22 @@
 /*   By: flagoutt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/02 14:42:46 by flagoutt          #+#    #+#             */
-/*   Updated: 2016/03/02 16:00:29 by flagoutt         ###   ########.fr       */
+/*   Updated: 2016/03/02 20:45:13 by flagoutt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh1.h"
 
-void copycutpaste(char inputs[3], char *buff, char **ptr)
+void copycutpaste(char input, char *buff, char **ptr)
 {
-	static int    startpos = -1;
-	static char   copy[BUFF_SIZE];
+	static int	startpos = -1;
+	static char	copy[BUFF_SIZE];
+	char		inputs[3];
 
-	if (inputs[0] == -61 && inputs[1] == -89)
+	read(0, inputs, 2);
+	if (input == -61 && inputs[0] == -89)
 // Copy - Alt^C
-    {
+	  {
 		if (startpos == -1) // Start copy
 		{
 			startpos = *ptr - buff;
@@ -38,7 +40,7 @@ void copycutpaste(char inputs[3], char *buff, char **ptr)
 			startpos = -1;
 		}
     }
-	else if (inputs[0] == -30 && inputs[1] == -119 && startpos != -1)
+       	else if (input == -30 && inputs[0] == -119 && startpos != -1)
 // Cut - Alt^X
     {
 		ft_strncpy(copy, &buff[startpos], *ptr - buff - startpos);
@@ -56,7 +58,7 @@ void copycutpaste(char inputs[3], char *buff, char **ptr)
 
 		startpos = -1;
     }
-	else if (inputs[0] == -30 && inputs[1] == -120)
+	else if (input == -30 && inputs[0] == -120)
 // Paste - Alt^V
     {
 		ft_memmove(*ptr, copy, ft_strlen(copy));

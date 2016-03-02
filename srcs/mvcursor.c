@@ -6,7 +6,7 @@
 /*   By: flagoutt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/05/10 21:49:56 by flagoutt          #+#    #+#             */
-/*   Updated: 2016/03/02 16:05:25 by flagoutt         ###   ########.fr       */
+/*   Updated: 2016/03/02 20:44:00 by flagoutt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,9 +46,12 @@ void	mvcright(int size)
 		tputs(tmp, 1, custom_putchar);
 }
 
-void	mvcursor(char inputs[10], char *buff, char **ptr, t_history *history)
+void	mvcursor(char *buff, char **ptr, t_history *history)
 {
-	if (inputs[2] == 'A' && history)
+	char inputs[4];
+
+	read(0, inputs, 2);
+	if (inputs[1] == 'A' && history)
 	{
 		if (buff && history->current > 0 && history->size > 0)
 		{
@@ -70,12 +73,12 @@ void	mvcursor(char inputs[10], char *buff, char **ptr, t_history *history)
 			**ptr = '\0';
 		}
 	}
-	else if (inputs[2] == 'D' && buff < (*ptr))
+	else if (inputs[1] == 'D' && buff < (*ptr))
 	{
 		mvcleft(1);
 		(*ptr)--;
 	}
-	else if (inputs[2] == 'B' && history)
+	else if (inputs[1] == 'B' && history)
 	{
 		if (buff && (history->current < history->size))
 		{
@@ -92,7 +95,7 @@ void	mvcursor(char inputs[10], char *buff, char **ptr, t_history *history)
 			**ptr = '\0';
 		}
 	}
-	else if (inputs[2] == 'C' && *(*ptr))
+	else if (inputs[1] == 'C' && *(*ptr))
 	{
 		mvcright(1);
 		(*ptr)++;
