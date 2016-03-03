@@ -6,7 +6,7 @@
 /*   By: flagoutt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/04 01:07:27 by flagoutt          #+#    #+#             */
-/*   Updated: 2016/02/12 17:37:57 by flagoutt         ###   ########.fr       */
+/*   Updated: 2016/03/03 18:32:14 by flagoutt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ static int in_from_file(t_execdata *data, char ***avptra)
 	int		fd;
 
 	printf("Opening %s\n", *((*avptra) + 1));
-	fd = open(*((*avptra) + 1), O_RDONLY);
+	fd = open(*((*avptra) + 1), O_RDWR);
 	if (fd == -1)
 	{
 		ft_putstr("This file cannot be opened.\n");

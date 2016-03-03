@@ -6,7 +6,7 @@
 /*   By: flagoutt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/05/10 18:56:47 by flagoutt          #+#    #+#             */
-/*   Updated: 2016/02/16 16:45:06 by flagoutt         ###   ########.fr       */
+/*   Updated: 2016/03/03 19:09:26 by flagoutt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,17 +19,21 @@ static int		terminit(void)
 
 	if (!(termname = getenv("TERM")))
 	{
-		if ((tgetent(0, "xterm-256color") == -1) ||
+		if ((tgetent(NULL, "xterm-256color") == -1) ||
 			(tcgetattr(0, &(term)) == -1))
 			return (-1);
 	}
-	else if ((tgetent(0, termname) == -1) ||
-			(tcgetattr(0, &(term)) == -1))
+	else if ((tgetent(NULL, termname) == -1) ||
+			 // Modif du open / avant c'etait un 0, garder le fd et s'en servir partout on l'on read
+			 (tcgetattr(open("/dev/tty", O_RDWR | O_NONBLOCK), &term) == -1))
+	{
+		perror("tcgetattr");
 		return (-1);
+	}
 	term.c_lflag &= ~(ICANON | ECHO);
 	term.c_cc[VMIN] = 1;
 	term.c_cc[VTIME] = 0;
-	if (tcsetattr(0, TCSANOW, &(term)) == -1)
+	if (tcsetattr(open("/dev/tty", O_RDWR | O_NONBLOCK), TCSANOW, &(term)) == -1)
 	{
 		ft_putendl_fd("Can't initialize terminal infos", 2);
 		return (-1);

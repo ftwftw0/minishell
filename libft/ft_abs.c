@@ -6,13 +6,13 @@
 /*   By: flagoutt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/12/17 13:50:38 by flagoutt          #+#    #+#             */
-/*   Updated: 2014/12/17 13:54:24 by flagoutt         ###   ########.fr       */
+/*   Updated: 2016/03/03 16:29:23 by flagoutt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int ft_abs(int nb)
+int	ft_abs(int nb)
 {
 	if (nb < 0)
 		return (-nb);

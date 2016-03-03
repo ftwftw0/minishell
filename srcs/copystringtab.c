@@ -6,16 +6,13 @@
 /*   By: flagoutt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/03/23 17:34:29 by flagoutt          #+#    #+#             */
-/*   Updated: 2015/05/10 20:57:40 by flagoutt         ###   ########.fr       */
+/*   Updated: 2016/03/03 16:32:20 by flagoutt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh1.h"
 
-/*
-**  Tab has to end with a null value, to know when to stop
-*/
-char **ft_tabstrdup(char **thetab)
+char	**ft_tabstrdup(char **thetab)
 {
 	char	**new;
 	int		i;

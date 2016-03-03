@@ -6,7 +6,7 @@
 /*   By: flagoutt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/05/10 19:12:05 by flagoutt          #+#    #+#             */
-/*   Updated: 2016/03/02 19:50:41 by flagoutt         ###   ########.fr       */
+/*   Updated: 2016/03/03 18:35:08 by flagoutt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,15 +65,9 @@ static int	checkinputs(char input, char *buff, char **ptr, t_history *history)
 	else if (input < 0) // Alt-C pour debuter le copier
 		copycutpaste(input, buff, ptr);
 	else if (input == 1) // Ctrl-A pour aller en debut de ligne
-	{
-		mvcleft(*ptr - buff);
-		*ptr = buff;
-	}
+		mvcstart(buff, ptr);
 	else if (input == 5) // Ctrl-E pour aller en fin de ligne
-	{
-		mvcright(ft_strlen(*ptr));
-		*ptr = &(*ptr)[ft_strlen(*ptr)];
-	}
+		mvcend(ptr);
 	else if (ft_isprint(input))
 	{
 		ft_memmove((*ptr) + 1, (*ptr), ft_strlen((*ptr)));

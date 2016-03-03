@@ -6,7 +6,7 @@
 /*   By: flagoutt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/05/10 21:49:56 by flagoutt          #+#    #+#             */
-/*   Updated: 2016/03/02 20:44:00 by flagoutt         ###   ########.fr       */
+/*   Updated: 2016/03/03 16:27:36 by flagoutt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,18 @@ void	mvcright(int size)
 	tmp = tgetstr("nd", NULL);
 	while (size--)
 		tputs(tmp, 1, custom_putchar);
+}
+
+void	mvcstart(char *buff, char **ptr)
+{
+	mvcleft(*ptr - buff);
+	*ptr = buff;
+}
+
+void	mvcend(char **ptr)
+{
+	mvcright(ft_strlen(*ptr));
+	*ptr = &(*ptr)[ft_strlen(*ptr)];
 }
 
 void	mvcursor(char *buff, char **ptr, t_history *history)
@@ -100,4 +112,8 @@ void	mvcursor(char *buff, char **ptr, t_history *history)
 		mvcright(1);
 		(*ptr)++;
 	}
+	else if (inputs[1] == 72)
+		mvcstart(buff, ptr);
+	else if (inputs[1] == 70)
+		mvcend(ptr);
 }

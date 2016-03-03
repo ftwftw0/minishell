@@ -6,7 +6,7 @@
 #    By: flagoutt <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/03/05 17:59:57 by flagoutt          #+#    #+#              #
-#    Updated: 2016/03/02 14:44:43 by flagoutt         ###   ########.fr        #
+#    Updated: 2016/03/03 16:54:10 by flagoutt         ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -52,6 +52,7 @@ SRCS = 	$(DIRSLCT)/inits.c \
 		$(DIRSRC)/launchprogram.c \
 		$(DIRSRC)/add_str_to_tab.c \
 		$(DIRSRC)/copycutpaste.c \
+		$(DIRSRC)/pipedcommands.c \
 		main.c
 
 # **************************************************************************** #

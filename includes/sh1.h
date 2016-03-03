@@ -6,7 +6,7 @@
 /*   By: flagoutt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/03/22 02:00:31 by flagoutt          #+#    #+#             */
-/*   Updated: 2016/03/02 19:46:59 by flagoutt         ###   ########.fr       */
+/*   Updated: 2016/03/03 16:47:52 by flagoutt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ void			setallsignal(void);
 void			unsetallsignal(void);
 void			handler(int signal);
 void			unhandler(int signal);
+int				pipedcommands(char *buff, t_execdata *child);
 int				launchprogram(t_execdata *data, t_execdata *tmp);
 int				getinputs(char *buff, t_history *history);
 int				init(char **buff, t_execdata **child, char **env, t_history **history);
@@ -74,6 +75,9 @@ void			mvcright(int size);
 void			mvcleft(int size);
 void			mvctop(void);
 void			mvcbot(void);
+void			mvcstart(char *buff, char **ptr);
+void			mvcend(char **ptr);
+
 void			completion(char *buff, char **ptr);
 int				add_str_to_tab(char ***strtab, const char *str);
 void			copycutpaste(char input, char *buff, char **ptr);

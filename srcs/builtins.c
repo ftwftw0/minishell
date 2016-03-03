@@ -6,22 +6,12 @@
 /*   By: flagoutt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/03/23 16:58:09 by flagoutt          #+#    #+#             */
-/*   Updated: 2015/05/13 14:45:10 by flagoutt         ###   ########.fr       */
+/*   Updated: 2016/03/03 16:31:43 by flagoutt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh1.h"
 
-/*
-**		ABOUT EXECBI :
-**	Used to execute those built-ins :
-**				- env
-**				- setenv
-**				- unsetenv
-**				- exit
-**				- env
-**				- pid
-*/
 static void	execunsetenv(t_execdata *data)
 {
 	int i;

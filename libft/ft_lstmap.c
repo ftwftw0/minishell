@@ -6,13 +6,13 @@
 /*   By: flagoutt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/01/11 18:02:58 by flagoutt          #+#    #+#             */
-/*   Updated: 2015/01/14 17:15:03 by flagoutt         ###   ########.fr       */
+/*   Updated: 2016/03/03 16:29:54 by flagoutt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-t_list *ft_lstmap(t_list *lst, t_list *(*f)(t_list*))
+t_list	*ft_lstmap(t_list *lst, t_list *(*f)(t_list*))
 {
 	t_list*result;
 	t_list*tmp;
