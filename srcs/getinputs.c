@@ -6,7 +6,7 @@
 /*   By: flagoutt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/05/10 19:12:05 by flagoutt          #+#    #+#             */
-/*   Updated: 2016/03/03 18:35:08 by flagoutt         ###   ########.fr       */
+/*   Updated: 2016/03/04 16:06:53 by flagoutt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,8 @@ static int	checkinputs(char input, char *buff, char **ptr, t_history *history)
 	{
 		ft_memmove((*ptr) + 1, (*ptr), ft_strlen((*ptr)));
 		(*ptr)[0] = input;
-		ft_putstr(*ptr);
+		if (isatty(0))
+			ft_putstr(*ptr);
 		mvcleft(ft_strlen(*ptr) - 1);
 		(*ptr)++;
 	}
@@ -86,13 +87,14 @@ int			getinputs(char *buff, t_history *history)
 	int		ret;
 
 	ptr = buff;
-	while ((ret = read(0, &input, 1)) > 0)
+	while ((ret = read(0, &input, 1)) >= 0)
 	{
+		if (ret == 0 && input == 0)
+			return (-1);
 		if ((ret = checkinputs(input, buff, &ptr, history)) <= 1)
 			break ;
 		else if (ret == -1)
 			return (-1);
-//		printf("%i - %i - %i - %i\n", input[0], input[1], input[2], input[3]);
 		input = 0;
 	}
 	ft_putchar('\n');

@@ -6,7 +6,7 @@
 /*   By: flagoutt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/03/22 02:00:31 by flagoutt          #+#    #+#             */
-/*   Updated: 2016/03/03 16:47:52 by flagoutt         ###   ########.fr       */
+/*   Updated: 2016/03/04 15:21:43 by flagoutt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@
 # include "ft_select.h"
 
 # define MAX_FD 20
+
+int				g_ttyfd;
 
 typedef struct	s_execdata
 {

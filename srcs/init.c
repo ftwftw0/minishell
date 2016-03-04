@@ -6,7 +6,7 @@
 /*   By: flagoutt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/05/10 18:56:47 by flagoutt          #+#    #+#             */
-/*   Updated: 2016/03/03 19:09:26 by flagoutt         ###   ########.fr       */
+/*   Updated: 2016/03/04 15:42:00 by flagoutt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,9 @@ static int		terminit(void)
 			(tcgetattr(0, &(term)) == -1))
 			return (-1);
 	}
-	else if ((tgetent(NULL, termname) == -1) ||
-			 // Modif du open / avant c'etait un 0, garder le fd et s'en servir partout on l'on read
-			 (tcgetattr(open("/dev/tty", O_RDWR | O_NONBLOCK), &term) == -1))
+	else if (tgetent(NULL, termname) == -1 ||
+			 (g_ttyfd = open("/dev/tty", O_RDWR)) == -1 ||
+			 tcgetattr(g_ttyfd, &term) == -1)
 	{
 		perror("tcgetattr");
 		return (-1);
@@ -33,7 +33,7 @@ static int		terminit(void)
 	term.c_lflag &= ~(ICANON | ECHO);
 	term.c_cc[VMIN] = 1;
 	term.c_cc[VTIME] = 0;
-	if (tcsetattr(open("/dev/tty", O_RDWR | O_NONBLOCK), TCSANOW, &(term)) == -1)
+	if (tcsetattr(g_ttyfd, TCSANOW, &(term)) == -1)
 	{
 		ft_putendl_fd("Can't initialize terminal infos", 2);
 		return (-1);

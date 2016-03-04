@@ -15,5 +15,3 @@ Editeur de commandes :
 - ctrl+D et ctrl+C dans l’édition de la ligne ?!?!?!!!
 
 - Variable d'environnement _ = derniere commande executee. Si builtins, _ = arguments de la commande. D'ailleurs, echo $VARIABLE affiche la variable.
-
-- tcgetattr doit prendre un fd d'un terminal en parametre, et on doit se servir de ce fd partout, dans le read

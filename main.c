@@ -6,7 +6,7 @@
 /*   By: flagoutt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/11/22 17:00:39 by flagoutt          #+#    #+#             */
-/*   Updated: 2016/03/03 18:42:56 by flagoutt         ###   ########.fr       */
+/*   Updated: 2016/03/04 16:05:21 by flagoutt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,12 +76,14 @@ int			main(int argc, char **argv, char **env)
 		return (-1);
 	(void)argc;
 	(void)argv;
-	ft_welcome();
+	if (isatty(0))
+		ft_welcome();
 	while (1)
 	{
 		checkcanonmode();
 		getcwd(buff, BUFF_SIZE);
-		showprompt(buff);
+		if (isatty(0))
+			showprompt(buff);
 		ft_bzero(buff, BUFF_SIZE);
 		if ((getinputs(buff, history) == -1))
 			break ;
@@ -90,8 +92,10 @@ int			main(int argc, char **argv, char **env)
 	}
 	free(buff);
 	ft_deinit(child);
-	ft_goodbye();
+	if (isatty(0))
+		ft_goodbye();
 	ft_freetab(&(history->history));
 	close(history->fd);
+	close(g_ttyfd);
 	return (1);
 }
