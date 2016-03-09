@@ -6,7 +6,7 @@
 /*   By: flagoutt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/05/10 19:12:05 by flagoutt          #+#    #+#             */
-/*   Updated: 2016/03/04 16:06:53 by flagoutt         ###   ########.fr       */
+/*   Updated: 2016/03/09 14:13:52 by flagoutt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,35 +30,9 @@ static void	mvbackspace(char *buff, char **ptr)
 	}
 }
 
-static int	checkinputs(char input, char *buff, char **ptr, t_history *history)
+static void checkinputs_splitted(char input, char *buff, char **ptr, t_history *history)
 {
-	if (input == 27)
-		mvcursor(buff, ptr, history);
-	else if (input == '\n')
-	{
-	  if (history->history[history->size] != NULL)
-	    {
-		free(history->history[history->size]);
-		history->history[history->size] = NULL;
-	    }
-	  if (buff[0] && ft_strlen(buff) > 0 &&
-	      (history->size == 0 || ft_strcmp(buff, history->history[history->size - 1])))
-	    {
-	      history->history[history->size] = NULL;
-	      add_str_to_tab(&(history->history), buff);
-	      history->current = history->size;
-	      history->size++;
-	    }
-	  history->current = history->size;
-	  return (1);
-	}
-	else if (input == 4)
-	{
-		if (buff[0] == '\0')
-			return (-1);
-		return (0);
-	}
-	else if (input == 127 || input == 126)
+	if (input == 127 || input == 126)
 		mvbackspace(buff, ptr);
 	else if (input == 9)
 		completion(buff, ptr);
@@ -68,6 +42,8 @@ static int	checkinputs(char input, char *buff, char **ptr, t_history *history)
 		mvcstart(buff, ptr);
 	else if (input == 5) // Ctrl-E pour aller en fin de ligne
 		mvcend(ptr);
+	else if (input == 27)
+		mvcursor(buff, ptr, history);
 	else if (ft_isprint(input))
 	{
 		ft_memmove((*ptr) + 1, (*ptr), ft_strlen((*ptr)));
@@ -77,6 +53,35 @@ static int	checkinputs(char input, char *buff, char **ptr, t_history *history)
 		mvcleft(ft_strlen(*ptr) - 1);
 		(*ptr)++;
 	}
+}
+
+static int	checkinputs(char input, char *buff, char **ptr, t_history *history)
+{
+	if (input == '\n')
+	{
+		if (history->history[history->size] != NULL)
+		{
+			free(history->history[history->size]);
+			history->history[history->size] = NULL;
+		}
+		if (buff[0] && ft_strlen(buff) > 0 &&
+			(history->size == 0 || ft_strcmp(buff, history->history[history->size - 1])))
+		{
+			history->history[history->size] = NULL;
+			add_str_to_tab(&(history->history), buff);
+			history->current = history->size;
+			history->size++;
+		}
+		history->current = history->size;
+		return (1);
+	}
+	else if (input == 4)
+	{
+		if (buff[0] == '\0')
+			return (-1);
+		return (0);
+	}
+		checkinputs_splitted(input, buff, ptr, history);
 	return (2);
 }
 

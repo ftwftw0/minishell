@@ -6,7 +6,7 @@
 /*   By: flagoutt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/01/18 16:20:34 by flagoutt          #+#    #+#             */
-/*   Updated: 2016/02/12 17:17:25 by flagoutt         ###   ########.fr       */
+/*   Updated: 2016/03/09 13:40:48 by flagoutt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,12 +106,8 @@ int		get_next_line(int fd, char **line)
 	else
 	{
 		tmp = data;
-		while (tmp->next != NULL)
-		{
-			if (tmp->fd == fd)
-				break ;
+		while (tmp->next != NULL && tmp->fd == fd)
 			tmp = tmp->next;
-		}
 		if (tmp->next == NULL && tmp->fd != fd)
 		{
 			tmp->next = (t_gnldata *)malloc(sizeof(t_gnldata));

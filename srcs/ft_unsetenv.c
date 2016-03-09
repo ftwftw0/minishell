@@ -6,13 +6,13 @@
 /*   By: flagoutt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/03/24 15:14:26 by flagoutt          #+#    #+#             */
-/*   Updated: 2015/03/31 19:00:02 by flagoutt         ###   ########.fr       */
+/*   Updated: 2016/03/09 14:08:52 by flagoutt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh1.h"
 
-static char **reallocdelenv(char **env, int envsize, int index)
+static char	**reallocdelenv(char **env, int envsize, int index)
 {
 	char **newenv;
 

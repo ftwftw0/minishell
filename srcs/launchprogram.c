@@ -6,21 +6,39 @@
 /*   By: flagoutt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/04 01:07:27 by flagoutt          #+#    #+#             */
-/*   Updated: 2016/03/03 18:32:14 by flagoutt         ###   ########.fr       */
+/*   Updated: 2016/03/09 18:30:57 by flagoutt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh1.h"
 
-static int out_to_file(t_execdata *data, char ***avptra, int append)
+static void	rmv_entrie_in_avtable(char ***avptra)
 {
 	char **avptrb;
 	char	**avptrtmp;
 
-	append = (append) ? O_APPEND : 0;
-	// OPEN 'file' AND FILL data->out AND tmp->out WITH ITS FD (dnt fget 2 close l8r)
-	data->fd[1] = open(*((*avptra) + 1), O_CREAT | O_RDWR | append,
-					S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH);
+	// REMOVE "*>*" IN THE AV TABLE
+	avptrb = (*avptra) + 1;
+	free(*(*avptra));
+	*(*avptra) = NULL;
+	avptrtmp = *avptra;
+	while (*avptrb)
+	{
+		printf("(*avptra)zeub = %s\n", *avptrtmp);
+		*avptrtmp = *avptrb;
+		*avptrb = NULL;
+		avptrtmp++;
+		avptrb++;
+	}
+
+}
+
+
+static void	rmv_entries_in_avtable(char ***avptra)
+{
+	char **avptrb;
+	char	**avptrtmp;
+
 	// REMOVE ">" AND 'file' IN THE AV TABLE
 	avptrb = (*avptra) + 2;
 	free(*(*avptra));
@@ -36,6 +54,15 @@ static int out_to_file(t_execdata *data, char ***avptra, int append)
 		avptrtmp++;
 		avptrb++;
 	}
+}
+
+static int out_to_file(t_execdata *data, char ***avptra, int append)
+{
+	append = (append) ? O_APPEND : 0;
+	// OPEN 'file' AND FILL data->out AND tmp->out WITH ITS FD (dnt fget 2 close l8r)
+	data->fd[1] = open(*((*avptra) + 1), O_CREAT | O_RDWR | append,
+					S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH);
+	rmv_entries_in_avtable(avptra);
 	return (0);
 }
 
@@ -54,21 +81,7 @@ static int in_from_file(t_execdata *data, char ***avptra)
 	}
 	else
 		data->fd[0] = fd;
-	// REMOVE "<" AND 'file' IN THE AV TABLE
-	avptrb = (*avptra) + 2;
-	free(*(*avptra));
-	*(*avptra) = NULL;
-	free(*((*avptra) + 1));
-	*((*avptra) + 1) = NULL;
-	avptrtmp = *avptra;
-	while (*avptrb)
-	{
-		printf("(*avptra)zeub = %s\n", *avptrtmp);
-		*avptrtmp = *avptrb;
-		*avptrb = NULL;
-		avptrtmp++;
-		avptrb++;
-	}
+	rmv_entriers_in_avtable(avptra);
 	return (0);
 }
 
@@ -108,22 +121,7 @@ static int in_from_stdin(t_execdata *data, char ***avptra)
 	signal(SIGINT, handler);
 	close(pipedfd[1]);
 	data->fd[0] = pipedfd[0];
-
-	// REMOVE "<" AND 'file' IN THE AV TABLE
-	avptrb = (*avptra) + 2;
-	free(*(*avptra));
-	*(*avptra) = NULL;
-	free(*((*avptra) + 1));
-	*((*avptra) + 1) = NULL;
-	avptrtmp = *avptra;
-	while (*avptrb)
-	{
-		printf("(*avptra)zeub = %s\n", *avptrtmp);
-		*avptrtmp = *avptrb;
-		*avptrb = NULL;
-		avptrtmp++;
-		avptrb++;
-	}
+	rmv_entries_in_avtable(avptra);
 	return (0);
 }
 
@@ -161,20 +159,7 @@ static int fd_redirect(t_execdata *data, char ***avptra)
 		data->fd[1] = ft_atoi(part[0]);
 		printf("Redirecting stdin to %s\n", part[0]);
 	}
-
-	// REMOVE "*>*" IN THE AV TABLE
-	avptrb = (*avptra) + 1;
-	free(*(*avptra));
-	*(*avptra) = NULL;
-	avptrtmp = *avptra;
-	while (*avptrb)
-	{
-		printf("(*avptra)zeub = %s\n", *avptrtmp);
-		*avptrtmp = *avptrb;
-		*avptrb = NULL;
-		avptrtmp++;
-		avptrb++;
-	}
+	rmv_entrie_in_avtable(avptr);
 	return (0);
 }
 
@@ -215,7 +200,6 @@ static int	io_redirect(t_execdata *data, t_execdata *tmp)
 	avptr = data->av;
 	while (*avptr)
 		printf("avptr = %s\n", *avptr++);
-
 	if (tmp)
 	{
 		tmp->fd[0] = data->fd[0];

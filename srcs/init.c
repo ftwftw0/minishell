@@ -6,7 +6,7 @@
 /*   By: flagoutt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/05/10 18:56:47 by flagoutt          #+#    #+#             */
-/*   Updated: 2016/03/04 15:42:00 by flagoutt         ###   ########.fr       */
+/*   Updated: 2016/03/09 14:18:20 by flagoutt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@ static int		terminit(void)
 			return (-1);
 	}
 	else if (tgetent(NULL, termname) == -1 ||
-			 (g_ttyfd = open("/dev/tty", O_RDWR)) == -1 ||
-			 tcgetattr(g_ttyfd, &term) == -1)
+			(g_ttyfd = open("/dev/tty", O_RDWR)) == -1 ||
+			tcgetattr(g_ttyfd, &term) == -1)
 	{
 		perror("tcgetattr");
 		return (-1);
@@ -39,6 +39,23 @@ static int		terminit(void)
 		return (-1);
 	}
 	return (1);
+}
+
+static void		read_history_file(t_history *history)
+{
+	char	*tmp;
+
+	tmp = NULL;
+	while (get_next_line(history->fd, &tmp) >= 0)
+	{
+		if (tmp && tmp[0] && tmp[0] != '\n')
+		{
+			add_str_to_tab(&(history->history), tmp);
+			free(tmp);
+			tmp = NULL;
+			history->size++;
+		}
+	}
 }
 
 static int		loadhistory(t_history *history, char **env)
@@ -59,17 +76,7 @@ static int		loadhistory(t_history *history, char **env)
 	}
 	free(home);
 	free(tmp);
-	tmp = NULL;
-	while (get_next_line(history->fd, &tmp) >= 0)
-	{
-	  if (tmp && tmp[0] && tmp[0] != '\n')
-	    {
-	      add_str_to_tab(&(history->history), tmp);
-		free(tmp);
-		tmp = NULL;
-		history->size++;
-	    }
-	}
+	read_history_file(history);
 	return (1);
 }
 

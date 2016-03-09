@@ -6,7 +6,7 @@
 /*   By: flagoutt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/05/07 15:26:06 by flagoutt          #+#    #+#             */
-/*   Updated: 2015/05/12 14:56:26 by flagoutt         ###   ########.fr       */
+/*   Updated: 2016/03/09 14:39:42 by flagoutt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static void	putstrpos(int x, int y, const char *str, int size)
 	tputs(mov, g_ftselect->fd, custom_putchar);
 }
 
-static void printlist(t_elem *list, int nbcols)
+static void	printlist(t_elem *list, int nbcols)
 {
 	int x;
 	int y;

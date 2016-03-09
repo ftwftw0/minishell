@@ -6,13 +6,33 @@
 /*   By: flagoutt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/02 14:42:46 by flagoutt          #+#    #+#             */
-/*   Updated: 2016/03/03 18:02:42 by flagoutt         ###   ########.fr       */
+/*   Updated: 2016/03/09 13:54:09 by flagoutt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh1.h"
 
-static void alt_c_copy(char *buff, char **ptr, int *startpos, char *copy)
+static void	alt_c_endcopy(char *buff, char **ptr, int *startpos, char *copy)
+{
+		if (*ptr - buff < *startpos)
+		{
+			tmp = *startpos;
+			*startpos = *ptr - buff;
+			*ptr = buff + tmp;
+			mvcright(*ptr - buff - *startpos);
+		}
+		else
+			mvcleft(*ptr - buff - *startpos);		
+		ft_strncpy(copy, &buff[*startpos], *ptr - buff - *startpos);
+		*ptr = &buff[*startpos];
+		if (tmp)
+			*ptr = &buff[tmp];
+		ft_putstr(*ptr);
+		mvcleft(ft_strlen(*ptr));
+		*startpos = -1;
+}
+
+static void	alt_c_copy(char *buff, char **ptr, int *startpos, char *copy)
 {
 	int tmp;
 
@@ -28,29 +48,38 @@ static void alt_c_copy(char *buff, char **ptr, int *startpos, char *copy)
 			mvcleft(1);
 	}
 	else
-	{
+		alt_c_endcopy(buff, ptr, startpos, copy);
+}
+
+static void	alt_x_cut(char *buff, char **ptr, int *startpos, char *copy)
+{
 		if (*ptr - buff < *startpos)
 		{
-			tmp = *startpos;
+			input = *startpos;
 			*startpos = *ptr - buff;
-			*ptr = buff + tmp;
-			mvcright(*ptr - buff - *startpos);
+			*ptr = buff + input;
+			mvcright(*ptr - buff - input);
 		}
 		else
 			mvcleft(*ptr - buff - *startpos);
-		
 		ft_strncpy(copy, &buff[*startpos], *ptr - buff - *startpos);
-		
+		ft_memmove(&buff[*startpos], *ptr, ft_strlen(*ptr) + 1);
+		ft_memset(&buff[ft_strlen(buff)], ' ', ft_strlen(copy) + 1);
 		*ptr = &buff[*startpos];
-		if (tmp)
-			*ptr = &buff[tmp];
 		ft_putstr(*ptr);
 		mvcleft(ft_strlen(*ptr));
+		buff[ft_strlen(buff) - 1 - ft_strlen(copy)] = 0;
 		*startpos = -1;
-	}
 }
 
-void copycutpaste(char input, char *buff, char **ptr)
+static void	alt_x_paste(char *buff, char **ptr, char *copy)
+{
+	ft_memmove(*ptr, copy, ft_strlen(copy) + 1);
+	ft_putstr(*ptr);
+	mvcleft(ft_strlen(*ptr));
+}
+
+void		copycutpaste(char input, char *buff, char **ptr)
 {
 	static int	startpos = -1;
 	static char	copy[BUFF_SIZE];
@@ -60,38 +89,8 @@ void copycutpaste(char input, char *buff, char **ptr)
 	if (input == -61 && inputs[0] == -89)
 		alt_c_copy(buff, ptr, &startpos, (char *)copy);
 	else if (input == -30 && inputs[0] == -119 && startpos != -1)
-// Cut - Alt^X
-    {
-		if (*ptr - buff < startpos)
-		{
-			input = startpos;
-			startpos = *ptr - buff;
-			*ptr = buff + input;
-			mvcright(*ptr - buff - input);
-		}
-		else
-			mvcleft(*ptr - buff - startpos);
-
-		ft_strncpy(copy, &buff[startpos], *ptr - buff - startpos);
-
-		ft_memmove(&buff[startpos], *ptr, ft_strlen(*ptr) + 1);
-		
-		ft_memset(&buff[ft_strlen(buff)], ' ', ft_strlen(copy) + 1);
-		*ptr = &buff[startpos];
-		ft_putstr(*ptr);
-		mvcleft(ft_strlen(*ptr));
-
-		buff[ft_strlen(buff) - 1 - ft_strlen(copy)] = 0; // Sets the \0
-
-		startpos = -1;
-    }
+		alt_x_cut(buff, ptr, &startpos, (char *)copy);
 	else if (input == -30 && inputs[0] == -120)
-// Paste - Alt^V
-    {
-		ft_memmove(*ptr, copy, ft_strlen(copy) + 1);
-		ft_putstr(*ptr);
-		mvcleft(ft_strlen(*ptr));
-    }
-
+		alt_v_paste(buff, ptr, (char *)copy);
 }
 

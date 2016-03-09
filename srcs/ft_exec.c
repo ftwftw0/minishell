@@ -6,13 +6,13 @@
 /*   By: flagoutt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/11/22 17:00:39 by flagoutt          #+#    #+#             */
-/*   Updated: 2016/02/10 06:43:58 by flagoutt         ###   ########.fr       */
+/*   Updated: 2016/03/09 14:09:21 by flagoutt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh1.h"
 
-static void tryexec(const char *path, t_execdata *data)
+static void	tryexec(const char *path, t_execdata *data)
 {
 	if (data->fd[2] != 2)
 	{
@@ -33,7 +33,7 @@ static void tryexec(const char *path, t_execdata *data)
 	if (data->fd[0] != 0)
 	{
 		if (dup2(data->fd[0], 0) == -1)
-				perror("dup2 du stdin");
+			perror("dup2 du stdin");
 		if (close(data->fd[0]) == -1)
 			perror("close pipestdin");
 		data->fd[0] = 0;
@@ -94,7 +94,7 @@ static void	abspath(t_execdata *data, t_execdata *tmp)
 	tryexec(data->av[0], data);
 }
 
-static void homepath(t_execdata *data, t_execdata *tmp)
+static void	homepath(t_execdata *data, t_execdata *tmp)
 {
 	char *buff;
 	char *home;
