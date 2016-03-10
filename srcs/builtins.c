@@ -6,7 +6,7 @@
 /*   By: flagoutt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/03/23 16:58:09 by flagoutt          #+#    #+#             */
-/*   Updated: 2016/03/03 16:31:43 by flagoutt         ###   ########.fr       */
+/*   Updated: 2016/03/10 17:49:15 by flagoutt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,9 @@ static void	execsetenv(t_execdata *data)
 		free(buff);
 		i++;
 	}
-	if (!ptr)
+	if (i == 1)
+		ft_env(data);
+	else if (!ptr)
 		ft_putendl_fd("Bad environment variable format.\
 		(use: setenv VAR=VALUE) [...]", 2);
 }
@@ -61,7 +63,7 @@ int			execbi(char *str, t_execdata *data)
 	}
 	else if (!ft_strcmp(str, "exit"))
 	{
-		ft_deinit(data);
+		ft_deinit(data, NULL); // REMEMBA
 		exit(0);
 	}
 	else

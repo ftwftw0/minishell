@@ -6,7 +6,7 @@
 #    By: flagoutt <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/03/05 17:59:57 by flagoutt          #+#    #+#              #
-#    Updated: 2016/03/09 14:41:43 by flagoutt         ###   ########.fr        #
+#    Updated: 2016/03/10 16:21:28 by flagoutt         ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -48,12 +48,14 @@ SRCS = 	$(DIRSLCT)/inits.c \
 		$(DIRSRC)/customputchar.c \
 		$(DIRSRC)/mvcursor.c \
 		$(DIRSRC)/mvcursor_tools.c \
+		$(DIRSRC)/mvcursor_tools2.c \
 		$(DIRSRC)/completion.c \
 		$(DIRSRC)/handlers.c \
 		$(DIRSRC)/launchprogram.c \
 		$(DIRSRC)/add_str_to_tab.c \
 		$(DIRSRC)/copycutpaste.c \
 		$(DIRSRC)/pipedcommands.c \
+		$(DIRSRC)/fd_redirections.c \
 		main.c
 
 # **************************************************************************** #

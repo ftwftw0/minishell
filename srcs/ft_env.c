@@ -6,7 +6,7 @@
 /*   By: flagoutt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/03/23 17:56:41 by flagoutt          #+#    #+#             */
-/*   Updated: 2016/02/04 06:44:31 by flagoutt         ###   ########.fr       */
+/*   Updated: 2016/03/10 16:17:51 by flagoutt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ static void	ft_envsplitted(t_execdata *data, t_execdata *tmp, int i)
 	tmp->av = mknewav(data->av, i);
 	if ((i = launchprogram(data, tmp)) == 0 || i == 2)
 	{
-		ft_deinit(tmp);
+		ft_deinit(tmp, NULL);
 		exit(0);
 	}
 }
@@ -72,7 +72,7 @@ int			ft_env(t_execdata *data)
 		else
 			tmp->env = ft_tabstrdup(data->env);
 		ft_envsplitted(data, tmp, i);
-		ft_deinit(tmp);
+		ft_deinit(tmp, NULL);
 	}
 	return (1);
 }

@@ -1,19 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putchar.c                                       :+:      :+:    :+:   */
+/*   mvcursor_tools2.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: flagoutt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2014/11/14 14:42:28 by flagoutt          #+#    #+#             */
-/*   Updated: 2016/03/10 16:01:16 by flagoutt         ###   ########.fr       */
+/*   Created: 2016/03/10 16:19:47 by flagoutt          #+#    #+#             */
+/*   Updated: 2016/03/10 16:20:08 by flagoutt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <libft.h>
-#include <unistd.h>
+#include "sh1.h"
 
-void	ft_putchar(char c)
+void    mvcstart(char *buff, char **ptr)
 {
-	write(1, &c, 1);
+    mvcleft(*ptr - buff);
+    *ptr = buff;
+}
+
+void    mvcend(char **ptr)
+{
+    mvcright(ft_strlen(*ptr));
+    *ptr = &(*ptr)[ft_strlen(*ptr)];
 }

@@ -6,7 +6,7 @@
 /*   By: flagoutt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/05/10 19:12:05 by flagoutt          #+#    #+#             */
-/*   Updated: 2016/03/09 14:13:52 by flagoutt         ###   ########.fr       */
+/*   Updated: 2016/03/10 18:38:11 by flagoutt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,17 +30,18 @@ static void	mvbackspace(char *buff, char **ptr)
 	}
 }
 
-static void checkinputs_splitted(char input, char *buff, char **ptr, t_history *history)
+static void	checkinputs_splitted(char input, char *buff,
+								char **ptr, t_history *history)
 {
 	if (input == 127 || input == 126)
 		mvbackspace(buff, ptr);
 	else if (input == 9)
 		completion(buff, ptr);
-	else if (input < 0) // Alt-C pour debuter le copier
+	else if (input < 0)
 		copycutpaste(input, buff, ptr);
-	else if (input == 1) // Ctrl-A pour aller en debut de ligne
+	else if (input == 1)
 		mvcstart(buff, ptr);
-	else if (input == 5) // Ctrl-E pour aller en fin de ligne
+	else if (input == 5)
 		mvcend(ptr);
 	else if (input == 27)
 		mvcursor(buff, ptr, history);
@@ -48,8 +49,7 @@ static void checkinputs_splitted(char input, char *buff, char **ptr, t_history *
 	{
 		ft_memmove((*ptr) + 1, (*ptr), ft_strlen((*ptr)));
 		(*ptr)[0] = input;
-		if (isatty(0))
-			ft_putstr(*ptr);
+		ft_putstr(*ptr);
 		mvcleft(ft_strlen(*ptr) - 1);
 		(*ptr)++;
 	}
@@ -65,12 +65,12 @@ static int	checkinputs(char input, char *buff, char **ptr, t_history *history)
 			history->history[history->size] = NULL;
 		}
 		if (buff[0] && ft_strlen(buff) > 0 &&
-			(history->size == 0 || ft_strcmp(buff, history->history[history->size - 1])))
+			(history->size == 0 ||
+			ft_strcmp(buff, history->history[history->size - 1])))
 		{
 			history->history[history->size] = NULL;
 			add_str_to_tab(&(history->history), buff);
-			history->current = history->size;
-			history->size++;
+			history->current = history->size++;
 		}
 		history->current = history->size;
 		return (1);
@@ -81,7 +81,7 @@ static int	checkinputs(char input, char *buff, char **ptr, t_history *history)
 			return (-1);
 		return (0);
 	}
-		checkinputs_splitted(input, buff, ptr, history);
+	checkinputs_splitted(input, buff, ptr, history);
 	return (2);
 }
 
@@ -92,9 +92,10 @@ int			getinputs(char *buff, t_history *history)
 	int		ret;
 
 	ptr = buff;
+	input = 0;
 	while ((ret = read(0, &input, 1)) >= 0)
 	{
-		if (ret == 0 && input == 0)
+		if (ret == 0)
 			return (-1);
 		if ((ret = checkinputs(input, buff, &ptr, history)) <= 1)
 			break ;

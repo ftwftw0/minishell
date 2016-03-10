@@ -6,27 +6,12 @@
 /*   By: flagoutt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/11/22 17:00:39 by flagoutt          #+#    #+#             */
-/*   Updated: 2016/03/04 16:05:21 by flagoutt         ###   ########.fr       */
+/*   Updated: 2016/03/10 17:52:07 by flagoutt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh1.h"
 #include <stdio.h>
-
-void		set_righthome(t_execdata *data)
-{
-	char *home;
-	char *tmp;
-
-	home = ft_getenv(data->env, "HOME");
-	if (!ft_strncmp(home, "/nfs", 4))
-	{
-		tmp = ft_strjoin("/Volumes/Data", home);
-		ft_setenv(data, "HOME", tmp, 1);
-		free(tmp);
-	}
-	free(home);
-}
 
 int			launchcommands(char *buff, t_execdata *child)
 {
@@ -68,11 +53,10 @@ static void	checkcanonmode(void)
 
 int			main(int argc, char **argv, char **env)
 {
-	char		*buff;
 	t_history	*history;
 	t_execdata	*child;
 
-	if (init(&buff, &child, env, &history) == -1)
+	if (init(&g_buff, &child, env, &history) == -1)
 		return (-1);
 	(void)argc;
 	(void)argv;
@@ -81,21 +65,16 @@ int			main(int argc, char **argv, char **env)
 	while (1)
 	{
 		checkcanonmode();
-		getcwd(buff, BUFF_SIZE);
-		if (isatty(0))
-			showprompt(buff);
-		ft_bzero(buff, BUFF_SIZE);
-		if ((getinputs(buff, history) == -1))
+		getcwd(g_buff, BUFF_SIZE);
+		showprompt(g_buff);
+		ft_bzero(g_buff, BUFF_SIZE);
+		if ((getinputs(g_buff, history) == -1))
 			break ;
-		else if (launchcommands(buff, child) == 0)
+		else if (launchcommands(g_buff, child) == 0)
 			return (0);
 	}
-	free(buff);
-	ft_deinit(child);
+	ft_deinit(child, history);
 	if (isatty(0))
 		ft_goodbye();
-	ft_freetab(&(history->history));
-	close(history->fd);
-	close(g_ttyfd);
 	return (1);
 }

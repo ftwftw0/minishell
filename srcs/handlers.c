@@ -6,7 +6,7 @@
 /*   By: flagoutt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/05/15 14:04:16 by flagoutt          #+#    #+#             */
-/*   Updated: 2016/03/04 17:19:45 by flagoutt         ###   ########.fr       */
+/*   Updated: 2016/03/10 16:49:54 by flagoutt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,29 +14,27 @@
 
 void		handler(int signal)
 {
-	char buff[BUFF_SIZE];
-
 	ft_putchar_fd('\n', 2);
 	if (signal == SIGINT)
 	{
-		getcwd(buff, BUFF_SIZE);
-		if (isatty(0))
-			showprompt(buff);
+		ft_bzero(g_buff, BUFF_SIZE);
+		getcwd(g_buff, BUFF_SIZE);
+		showprompt(g_buff);
+		ft_bzero(g_buff, BUFF_SIZE);
 	}
 	else if (signal == SIGSEGV)
 	{
 		ft_putstr_fd("This is what i call a gay segfault. Yes sir.\n", 2);
-		ft_deinit(NULL);
+		ft_deinit(NULL, NULL);
 		exit(1);
 	}
 	else if (signal == SIGQUIT)
 	{
-		ft_deinit(NULL);
+		ft_deinit(NULL, NULL);
 		ft_putstr_fd("Trying to quit process ", 2);
 		ft_putnbr_fd(getpid(), 2);
 		ft_putstr_fd(".\n", 2);
-		if (isatty(0))
-			ft_goodbye();
+		ft_goodbye();
 		exit(0);
 	}
 }

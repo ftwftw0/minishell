@@ -6,7 +6,7 @@
 /*   By: flagoutt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/05/10 18:56:47 by flagoutt          #+#    #+#             */
-/*   Updated: 2016/03/09 14:18:20 by flagoutt         ###   ########.fr       */
+/*   Updated: 2016/03/10 17:51:39 by flagoutt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,8 @@ static int		loadhistory(t_history *history, char **env)
 	return (1);
 }
 
-int				init(char **buff, t_execdata **child, char **env, t_history **history)
+int				init(char **buff, t_execdata **child,
+					char **env, t_history **history)
 {
 	if (((*buff) = (char *)malloc(sizeof(char) * BUFF_SIZE + 1)) == NULL)
 		return (-1);
@@ -91,7 +92,6 @@ int				init(char **buff, t_execdata **child, char **env, t_history **history)
 	if (((*child) = (t_execdata *)malloc(sizeof(t_execdata))) == NULL)
 		return (-1);
 	(*child)->env = ft_tabstrdup(env);
-	set_righthome((*child));
 	(*child)->fd[0] = 0;
 	(*child)->fd[1] = 1;
 	(*child)->av = NULL;

@@ -6,7 +6,7 @@
 /*   By: flagoutt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/05/09 16:51:52 by flagoutt          #+#    #+#             */
-/*   Updated: 2016/02/09 11:28:08 by flagoutt         ###   ########.fr       */
+/*   Updated: 2016/03/10 13:24:15 by flagoutt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 void	deinit(void)
 {
-	char *tmp;
-	int i;
+	char	*tmp;
+	int		i;
 
 	i = 100;
 	cleanterm();

@@ -6,7 +6,7 @@
 /*   By: flagoutt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/11/22 17:00:39 by flagoutt          #+#    #+#             */
-/*   Updated: 2016/03/09 14:09:21 by flagoutt         ###   ########.fr       */
+/*   Updated: 2016/03/10 17:45:30 by flagoutt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,8 +61,9 @@ static void	intopaths(t_execdata *data, t_execdata *tmp)
 			free(paths[i]);
 		}
 		free(paths);
+		free(strpaths);
 	}
-	free(strpaths);
+	tryexec(data->av[0], data);
 }
 
 static void	abspath(t_execdata *data, t_execdata *tmp)

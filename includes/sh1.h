@@ -6,7 +6,7 @@
 /*   By: flagoutt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/03/22 02:00:31 by flagoutt          #+#    #+#             */
-/*   Updated: 2016/03/09 13:38:26 by flagoutt         ###   ########.fr       */
+/*   Updated: 2016/03/10 17:52:31 by flagoutt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@
 # define MAX_FD 20
 
 int				g_ttyfd;
+char			*g_buff;
 
 typedef struct	s_execdata
 {
@@ -54,7 +55,7 @@ int				showstringtab(char **strtab);
 char			**ft_tabstrdup(char **thetab);
 int				execbi(char *str, t_execdata *data);
 int				ft_env(t_execdata *data);
-int				ft_deinit(t_execdata *data);
+int				ft_deinit(t_execdata *data, t_history *history);
 int				ft_setenv(t_execdata *data, const char *name,
 						const char *value, int overwrite);
 int				ft_unsetenv(t_execdata *data, const char *name);
@@ -72,7 +73,6 @@ int				launchprogram(t_execdata *data, t_execdata *tmp);
 int				getinputs(char *buff, t_history *history);
 int				init(char **buff, t_execdata **child, char **env,
 					t_history **history);
-void			set_righthome(t_execdata *data);
 void			mvcursor(char *buff, char **ptr, t_history *history);
 void			mvcright(int size);
 void			mvcleft(int size);
@@ -84,4 +84,8 @@ void			mvcend(char **ptr);
 void			completion(char *buff, char **ptr);
 int				add_str_to_tab(char ***strtab, const char *str);
 void			copycutpaste(char input, char *buff, char **ptr);
+int				in_from_stdin(t_execdata *data, char ***avptra);
+int				in_from_file(t_execdata *data, char ***avptra);
+int				out_to_file(t_execdata *data, char ***avptra, int append);
+
 #endif

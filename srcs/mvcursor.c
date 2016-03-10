@@ -6,13 +6,13 @@
 /*   By: flagoutt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/05/10 21:49:56 by flagoutt          #+#    #+#             */
-/*   Updated: 2016/03/09 14:44:57 by flagoutt         ###   ########.fr       */
+/*   Updated: 2016/03/10 16:56:45 by flagoutt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh1.h"
 
-static void history_up(char *buff, char **ptr, t_history *history)
+static void	history_up(char *buff, char **ptr, t_history *history)
 {
 	if (buff && history->current > 0 && history->size > 0)
 	{
@@ -35,7 +35,7 @@ static void history_up(char *buff, char **ptr, t_history *history)
 	}
 }
 
-static void history_down(char *buff, char **ptr, t_history *history)
+static void	history_down(char *buff, char **ptr, t_history *history)
 {
 	if (buff && (history->current < history->size))
 	{
@@ -53,11 +53,15 @@ static void history_down(char *buff, char **ptr, t_history *history)
 	}
 }
 
-void	mvcursor(char *buff, char **ptr, t_history *history)
+void		mvcursor(char *buff, char **ptr, t_history *history)
 {
 	char inputs[4];
 
-	read(0, inputs, 2);
+	if (read(0, inputs, 2))
+	{
+		ft_putstr_fd("Dans ton luc jean luc\n", g_ttyfd);
+		exit(666);
+	}
 	if (inputs[1] == 'A' && history)
 		history_up(buff, ptr, history);
 	else if (inputs[1] == 'D' && buff < (*ptr))
