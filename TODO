@@ -2,7 +2,11 @@ Editeur de commandes :
 
 - Ctrl-C pour les <<
 
+- Segfault sur unsetenv last value
+
 - Eventuellement les || et && grace a waitpid
+
+- buildin cd, suivre liens symboliques
 
 - aggregations sans partie a gauche des fleches
 

@@ -6,7 +6,7 @@
 /*   By: flagoutt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/05/10 21:49:56 by flagoutt          #+#    #+#             */
-/*   Updated: 2016/03/10 16:56:45 by flagoutt         ###   ########.fr       */
+/*   Updated: 2016/03/11 17:47:32 by flagoutt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,11 +57,7 @@ void		mvcursor(char *buff, char **ptr, t_history *history)
 {
 	char inputs[4];
 
-	if (read(0, inputs, 2))
-	{
-		ft_putstr_fd("Dans ton luc jean luc\n", g_ttyfd);
-		exit(666);
-	}
+	read(0, inputs, 2);
 	if (inputs[1] == 'A' && history)
 		history_up(buff, ptr, history);
 	else if (inputs[1] == 'D' && buff < (*ptr))
