@@ -6,7 +6,7 @@
 /*   By: flagoutt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/03/23 16:58:09 by flagoutt          #+#    #+#             */
-/*   Updated: 2016/03/10 17:49:15 by flagoutt         ###   ########.fr       */
+/*   Updated: 2016/03/15 15:48:09 by flagoutt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static void	execunsetenv(t_execdata *data)
 	i = 1;
 	while (data->av[i])
 	{
-		ft_unsetenv(data, data->av[i++]);
+		ft_unsetenv(data, data->av[i]);
 		i++;
 	}
 }

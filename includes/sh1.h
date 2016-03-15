@@ -6,7 +6,7 @@
 /*   By: flagoutt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/03/22 02:00:31 by flagoutt          #+#    #+#             */
-/*   Updated: 2016/03/10 17:52:31 by flagoutt         ###   ########.fr       */
+/*   Updated: 2016/03/15 16:52:04 by flagoutt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,8 @@ void			mvctop(void);
 void			mvcbot(void);
 void			mvcstart(char *buff, char **ptr);
 void			mvcend(char **ptr);
-
+void			mvclineup(char *buff, char **ptr);
+void			mvclinedown(char *buff, char **ptr);
 void			completion(char *buff, char **ptr);
 int				add_str_to_tab(char ***strtab, const char *str);
 void			copycutpaste(char input, char *buff, char **ptr);
