@@ -5,8 +5,6 @@ Editeur de commandes :
 - aggregations sans partie a gauche des fleches, prendre fd 1 et 2
   fermer fd avec &-
 
-- Variable d'environnement _ = derniere commande executee. Si builtins, _ = arguments de la commande. D'ailleurs, echo $VARIABLE affiche la variable.
-
 - Eventuellement les || et && grace a waitpid
 
 - Cette commande ne marcheuh paaas : cat | cat -e
