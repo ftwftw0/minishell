@@ -6,7 +6,7 @@
 #    By: flagoutt <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/03/05 17:59:57 by flagoutt          #+#    #+#              #
-#    Updated: 2016/03/15 15:21:57 by flagoutt         ###   ########.fr        #
+#    Updated: 2016/03/17 16:31:47 by flagoutt         ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -56,6 +56,7 @@ SRCS = 	$(DIRSLCT)/inits.c \
 		$(DIRSRC)/copycutpaste.c \
 		$(DIRSRC)/pipedcommands.c \
 		$(DIRSRC)/fd_redirections.c \
+		$(DIRSRC)/get_cursor_pos.c \
 		main.c
 
 # **************************************************************************** #

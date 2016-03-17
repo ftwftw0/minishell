@@ -6,7 +6,7 @@
 /*   By: flagoutt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/05/10 21:49:56 by flagoutt          #+#    #+#             */
-/*   Updated: 2016/03/15 16:40:02 by flagoutt         ###   ########.fr       */
+/*   Updated: 2016/03/17 19:54:38 by flagoutt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,6 @@ static void	history_down(char *buff, char **ptr, t_history *history)
 	}
 }
 
-
-
 void		mvcursor(char *buff, char **ptr, t_history *history)
 {
 	char inputs[3];
@@ -82,4 +80,8 @@ void		mvcursor(char *buff, char **ptr, t_history *history)
 		mvclineup(buff, ptr);
 	else if (inputs[0] == 27 && inputs[2] == 'B')
 		mvclinedown(buff, ptr);
+	else if (inputs[0] == 27 && inputs[2] == 'C')
+		mvcnextword(buff, ptr);
+	else if (inputs[0] == 27 && inputs[2] == 'D')
+		mvcprevword(buff, ptr);
 }

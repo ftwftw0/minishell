@@ -6,7 +6,7 @@
 /*   By: flagoutt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/03/22 02:00:31 by flagoutt          #+#    #+#             */
-/*   Updated: 2016/03/15 16:52:04 by flagoutt         ###   ########.fr       */
+/*   Updated: 2016/03/17 19:11:06 by flagoutt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,5 +88,9 @@ void			copycutpaste(char input, char *buff, char **ptr);
 int				in_from_stdin(t_execdata *data, char ***avptra);
 int				in_from_file(t_execdata *data, char ***avptra);
 int				out_to_file(t_execdata *data, char ***avptra, int append);
+int				get_cursor_x(void);
+int				get_cursor_y(void);
+void			mvcprevword(char *buff, char **ptr);
+void			mvcnextword(char *buff, char **ptr);
 
 #endif

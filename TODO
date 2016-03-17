@@ -2,20 +2,15 @@ Editeur de commandes :
 
 - buildin cd, suivre liens symboliques
 
-- aggregations sans partie a gauche des fleches
-
-- leaks
-
-
-- Ecrire ET éditer une commande sur plusieurs lignes. Dans ce cas, on apprecierait que ctrl+UP et ctrl+DOWN permettent de passer d’une ligne à l’autre de la commande en restant sur la même colonne ou la colonne la plus appropriée sinon -> fleches gauche/droite pour se deplacer sur plusieurs lignes (pas seulement termcaps le et ri) ---
------ UPDATE : Problem avc mvclinedown, col 0
-	  		   mvcright quand curseur derniere colonne
-
-
-- Si une partie parenthésée de la commande n’est pas refermée avant l’appui sur la touche return, le shell revient à la ligne et attend la fin de la commande. Par partie parenthésée, on entend une partie de la commande entre quotes, doubles quotes, back quotes, parenthèses, crochets, accolades, etc.
-
-- ctrl+D et ctrl+C dans l’édition de la ligne ?!?!?!!!
+- aggregations sans partie a gauche des fleches, prendre fd 1 et 2
+  fermer fd avec &-
 
 - Variable d'environnement _ = derniere commande executee. Si builtins, _ = arguments de la commande. D'ailleurs, echo $VARIABLE affiche la variable.
 
 - Eventuellement les || et && grace a waitpid
+
+- Cette commande ne marcheuh paaas : cat | cat -e
+
+- leaks
+
+- ctrl+D et ctrl+C dans l’édition de la ligne ?!?!?!!!

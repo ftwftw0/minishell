@@ -6,7 +6,7 @@
 /*   By: flagoutt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/09 14:40:40 by flagoutt          #+#    #+#             */
-/*   Updated: 2016/03/15 18:42:01 by flagoutt         ###   ########.fr       */
+/*   Updated: 2016/03/17 17:09:34 by flagoutt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,11 +30,21 @@ void	mvcbot(void)
 
 void	mvcleft(int size)
 {
+	struct winsize w;
 	char *tmp;
 
+    ioctl(STDOUT_FILENO, TIOCGWINSZ, &w);
 	tmp = tgetstr("le", NULL);
 	while (size--)
-		tputs(tmp, 1, custom_putchar);
+	{
+		if (get_cursor_x() == 1)
+		{
+			mvctop();
+			mvcright(w.ws_col - 1);
+		}
+		else
+			tputs(tmp, 1, custom_putchar);
+	}
 }
 
 void	mvcright(int size)
@@ -43,14 +53,12 @@ void	mvcright(int size)
 	char *tmp;
 
     ioctl(STDOUT_FILENO, TIOCGWINSZ, &w);
-	ft_putstr("\033[6n");
-
-	char i = 0;
-	read(0, &i, 4);
-	printf("i = %i     winsize.x = %i\n", i, w.ws_col);
-
-
 	tmp = tgetstr("nd", NULL);
 	while (size--)
-		tputs(tmp, 1, custom_putchar);
+	{
+		if (get_cursor_x() == w.ws_col)
+			tputs(tgetstr("do", NULL), 1, custom_putchar);
+		else
+			tputs(tmp, 1, custom_putchar);
+	}
 }

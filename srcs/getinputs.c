@@ -6,7 +6,7 @@
 /*   By: flagoutt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/05/10 19:12:05 by flagoutt          #+#    #+#             */
-/*   Updated: 2016/03/10 18:38:11 by flagoutt         ###   ########.fr       */
+/*   Updated: 2016/03/17 20:31:57 by flagoutt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,19 +14,24 @@
 
 static void	mvbackspace(char *buff, char **ptr)
 {
+    struct winsize w;
 	char	*tmp;
 	int		i;
 
 	tmp = (*ptr);
+    ioctl(STDOUT_FILENO, TIOCGWINSZ, &w);
 	if ((*ptr) > buff)
 	{
 		i = ft_strlen(tmp);
 		(*ptr)--;
+		ft_memmove((*ptr), tmp, i + 1);
 		mvcleft(1);
-		ft_putstr((tmp));
-		ft_putchar(' ');
-		ft_strcpy((*ptr), tmp);
-		mvcleft(i + 1);
+		ft_putstr(*ptr);
+		if (get_cursor_x() > w.ws_col)
+			mvcbot();
+		tmp = tgetstr("ce", NULL);
+		tputs(tmp, 1, custom_putchar);
+		mvcleft(i);
 	}
 }
 
@@ -73,6 +78,7 @@ static int	checkinputs(char input, char *buff, char **ptr, t_history *history)
 			history->current = history->size++;
 		}
 		history->current = history->size;
+		mvcright(ft_strlen(*ptr));
 		return (1);
 	}
 	else if (input == 4)
@@ -83,6 +89,29 @@ static int	checkinputs(char input, char *buff, char **ptr, t_history *history)
 	}
 	checkinputs_splitted(input, buff, ptr, history);
 	return (2);
+}
+
+static int	check_parity(char *buff, char c, char d)
+{
+	char *ptr;
+
+	ptr = buff - 1;
+	while ((ptr = ft_strchr(ptr + 1, c)))
+		if (!(ptr = ft_strchr(ptr + 1, d)))
+			return (0);
+	return (1);
+}
+
+static int	command_well_formated(char *buff)
+{
+	if (!check_parity(buff, '\'', '\'') ||
+		!check_parity(buff, '"', '"') ||
+		!check_parity(buff, '`', '`') ||
+		!check_parity(buff, '(', ')') ||
+		!check_parity(buff, '[', ']') ||
+		!check_parity(buff, '{', '}'))
+		return (0);
+	return (1);
 }
 
 int			getinputs(char *buff, t_history *history)
@@ -97,8 +126,19 @@ int			getinputs(char *buff, t_history *history)
 	{
 		if (ret == 0)
 			return (-1);
-		if ((ret = checkinputs(input, buff, &ptr, history)) <= 1)
+		ret = checkinputs(input, buff, &ptr, history);
+		if (ret <= 1)
+		{
+			while (!command_well_formated(buff))
+			{
+				ft_putstr("\n > ");
+				ptr = &buff[ft_strlen(buff)];
+				while (read(0, &input, 1) && 
+					   (ret = checkinputs(input, &buff[ft_strlen(buff)], &ptr, history)) > 1)
+					;
+			}
 			break ;
+		}
 		else if (ret == -1)
 			return (-1);
 		input = 0;
