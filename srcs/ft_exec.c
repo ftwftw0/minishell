@@ -6,38 +6,59 @@
 /*   By: flagoutt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/11/22 17:00:39 by flagoutt          #+#    #+#             */
-/*   Updated: 2016/03/10 17:45:30 by flagoutt         ###   ########.fr       */
+/*   Updated: 2016/03/18 18:38:27 by flagoutt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh1.h"
 
-static void	tryexec(const char *path, t_execdata *data)
+static void close_fds(t_execdata *data)
 {
 	if (data->fd[2] != 2)
 	{
-		if (dup2(data->fd[2], 2) == -1)
-			perror("dup2 stdout");
 		if (close(data->fd[2]) == -1)
 			perror("close pipestdout");
 		data->fd[2] = 2;
 	}
+
 	if (data->fd[1] != 1)
 	{
-		if (dup2(data->fd[1], 1) == -1)
-			perror("dup2 stdout");
 		if (close(data->fd[1]) == -1)
 			perror("close pipestdout");
 		data->fd[1] = 1;
 	}
 	if (data->fd[0] != 0)
 	{
-		if (dup2(data->fd[0], 0) == -1)
-			perror("dup2 du stdin");
 		if (close(data->fd[0]) == -1)
 			perror("close pipestdin");
 		data->fd[0] = 0;
 	}
+}
+
+static void	tryexec(const char *path, t_execdata *data)
+{
+//	if (data->fd[2] != 2)
+//	{
+		if (dup2(data->fd[2], 2) == -1)
+		{
+			printf("data->fd[2] == %i\n", data->fd[2]);
+			perror("dup2 stdout");
+		}
+//	}
+//	if (data->fd[1] != 1)
+//	{
+		if (dup2(data->fd[1], 1) == -1)
+			perror("dup2 stdout");
+//	}
+//	if (data->fd[0] != 0)
+//	{
+		if (dup2(data->fd[0], 0) == -1)
+			perror("dup2 du stdin");
+//	}
+	printf("STDIN = %i\n", data->fd[0]);
+	printf("STDOUT = %i\n", data->fd[1]);
+	printf("STDERR = %i\n", data->fd[2]);
+	close_fds(data);
 	execve(path, data->av, data->env);
 }
 

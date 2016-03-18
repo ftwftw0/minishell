@@ -6,7 +6,7 @@
 /*   By: flagoutt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/04 01:07:27 by flagoutt          #+#    #+#             */
-/*   Updated: 2016/03/10 16:44:50 by flagoutt         ###   ########.fr       */
+/*   Updated: 2016/03/18 17:54:14 by flagoutt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,28 +37,42 @@ static int	fd_redirect(t_execdata *data, char ***avptra)
 
 	append = (*(ft_strchr(**avptra, '>') + 1) == '>') ? O_APPEND : 0;
 	part = ft_strsplit(**avptra, '>');
-	if (!part)
+	if (!part || (***avptra != '>' && !part[1]))
 		return (-1);
 	if (part[0] && part[1] && !part[2])
 	{
-//		printf("Redirecting %s to %s\n", part[0], part[1]);
 		if (ft_isnumber(part[0]))
 		{
+			printf("Redirecting %s to %s\n", part[0], part[1]);
 			if (part[1][0] == '&')
 				data->fd[ft_atoi(part[0])] = ft_atoi((part[1] + 1));
 			else
-			{
-				data->fd[ft_atoi(part[0])] = open(part[1],
-												O_CREAT | O_RDWR | append,
-												S_IRUSR | S_IWUSR | S_IRGRP |
-												S_IWGRP | S_IROTH | S_IWOTH);
-			}
+				data->fd[ft_atoi(part[0])] = open(part[1], O_CREAT | O_RDWR | append,
+						S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH);
+		}
+		else if (!ft_strcmp("&", part[0]))
+		{
+			printf("Redirecting stdout & stderr to %s\n", part[1]);
+			if (part[1][0] == '&')
+				data->fd[1] = ft_atoi((part[1] + 1));
+			else
+				data->fd[1] = open(part[1], O_CREAT | O_RDWR | append,
+						S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH);
+			data->fd[2] = data->fd[1];
 		}
 		else
 			return (-1);
 	}
 	else if (part[0] && !part[1])
-		data->fd[1] = ft_atoi(part[0]);
+	{
+		printf("Redirecting stdout to %s\n", part[0]);
+		if (part[0][0] == '&')
+			data->fd[1] = ft_atoi(part[0] + 1);
+		else
+			data->fd[1] = open(part[0], O_CREAT | O_RDWR | append,
+				   S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH);
+	}
+	ft_freetab(&part);
 	rmv_entrie_in_avtable(avptra);
 	return (0);
 }
@@ -88,7 +102,7 @@ static int	io_redirect(t_execdata *data, t_execdata *tmp)
 		{
 			if (fd_redirect(data, &avptr) == -1)
 			{
-				ft_putstr_fd("invalid fd redirection", 2);
+				ft_putendl_fd("invalid fd redirection", 2);
 				return (-1);
 			}
 		}

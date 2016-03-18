@@ -1,8 +1,14 @@
 Editeur de commandes :
 
+- completion qui bug
+
 - buildin cd, suivre liens symboliques
 
+- chmod rep courant / rm rf rep courant
+
 - aggregations sans partie a gauche des fleches, prendre fd 1 et 2
+  1>&2 dup2 stdout: Bad file descriptor
+  	   echo: write: Bad file descriptor
   fermer fd avec &-
 
 - Eventuellement les || et && grace a waitpid
