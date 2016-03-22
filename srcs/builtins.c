@@ -6,7 +6,7 @@
 /*   By: flagoutt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/03/23 16:58:09 by flagoutt          #+#    #+#             */
-/*   Updated: 2016/03/15 15:48:09 by flagoutt         ###   ########.fr       */
+/*   Updated: 2016/03/22 18:22:32 by flagoutt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,9 @@ int			execbi(char *str, t_execdata *data)
 	}
 	else if (!ft_strcmp(str, "exit"))
 	{
-		ft_deinit(data, NULL); // REMEMBA
+		ft_deinit(data, NULL); // REMEMBER! THIS COMMAND :
+		// echo lol | exit | cat | cat -e
+		// SEGFAULT HIS MOTHER
 		exit(0);
 	}
 	else

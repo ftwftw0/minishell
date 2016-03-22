@@ -6,7 +6,7 @@
 /*   By: flagoutt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/09 14:45:47 by flagoutt          #+#    #+#             */
-/*   Updated: 2016/03/10 16:43:43 by flagoutt         ###   ########.fr       */
+/*   Updated: 2016/03/22 16:18:04 by flagoutt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static void	rmv_entries_in_avtable(char ***avptra)
 int			out_to_file(t_execdata *data, char ***avptra, int append)
 {
 	append = (append) ? O_APPEND : 0;
-	data->fd[1] = open(*((*avptra) + 1), O_CREAT | O_RDWR | append,
+	data->fd[1] = open(*((*avptra) + 1), O_CREAT | O_RDWR | O_TRUNC | append,
 					S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH);
 	rmv_entries_in_avtable(avptra);
 	return (0);

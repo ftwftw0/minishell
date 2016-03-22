@@ -6,7 +6,7 @@
 /*   By: flagoutt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/04 01:07:27 by flagoutt          #+#    #+#             */
-/*   Updated: 2016/03/18 17:54:14 by flagoutt         ###   ########.fr       */
+/*   Updated: 2016/03/22 18:53:10 by flagoutt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,18 +45,28 @@ static int	fd_redirect(t_execdata *data, char ***avptra)
 		{
 			printf("Redirecting %s to %s\n", part[0], part[1]);
 			if (part[1][0] == '&')
-				data->fd[ft_atoi(part[0])] = ft_atoi((part[1] + 1));
+			{
+				if (part[1][1] == '-')
+					data->fd[ft_atoi(part[0])] = open("/dev/null", O_WRONLY);
+				else
+					data->fd[ft_atoi(part[0])] = ft_atoi((part[1] + 1));
+			}
 			else
-				data->fd[ft_atoi(part[0])] = open(part[1], O_CREAT | O_RDWR | append,
+				data->fd[ft_atoi(part[0])] = open(part[1], O_CREAT | O_RDWR | O_TRUNC | append,
 						S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH);
 		}
 		else if (!ft_strcmp("&", part[0]))
 		{
 			printf("Redirecting stdout & stderr to %s\n", part[1]);
 			if (part[1][0] == '&')
-				data->fd[1] = ft_atoi((part[1] + 1));
+			{
+				if (part[1][1] == '-')
+					data->fd[ft_atoi(part[0])] = open("/dev/null", O_WRONLY);
+				else
+					data->fd[1] = ft_atoi((part[1] + 1));
+			}
 			else
-				data->fd[1] = open(part[1], O_CREAT | O_RDWR | append,
+				data->fd[1] = open(part[1], O_CREAT | O_RDWR | O_TRUNC | append,
 						S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH);
 			data->fd[2] = data->fd[1];
 		}
@@ -67,9 +77,14 @@ static int	fd_redirect(t_execdata *data, char ***avptra)
 	{
 		printf("Redirecting stdout to %s\n", part[0]);
 		if (part[0][0] == '&')
-			data->fd[1] = ft_atoi(part[0] + 1);
+		{
+			if (part[0][1] == '-')
+				data->fd[1] = open("/dev/null", O_WRONLY);
+			else
+				data->fd[1] = ft_atoi(part[0] + 1);
+		}
 		else
-			data->fd[1] = open(part[0], O_CREAT | O_RDWR | append,
+			data->fd[1] = open(part[0], O_CREAT | O_RDWR | O_TRUNC | append,
 				   S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH);
 	}
 	ft_freetab(&part);
@@ -106,18 +121,14 @@ static int	io_redirect(t_execdata *data, t_execdata *tmp)
 				return (-1);
 			}
 		}
-		else if (ft_strchr(*avptr, '<'))
-			;
 		else
 			avptr++;
 	}
-//	avptr = data->av;
-//	while (*avptr)
-//		printf("avptr = %s\n", *avptr++);
 	if (tmp)
 	{
 		tmp->fd[0] = data->fd[0];
 		tmp->fd[1] = data->fd[1];
+		tmp->fd[2] = data->fd[2];
 	}
 	return (1);
 }
@@ -141,8 +152,7 @@ int			launchprogram(t_execdata *data, t_execdata *tmp)
 		// PENSER A FAIRE LES || ET &&, waitpid(...)
 				wait(&shell);
 		// VOILA
-				if (data->fd[1] > 1)
-					close(data->fd[1]);
+
 				setallsignal();
 			}
 			else if (shell == 0 && childexec(data, tmp) == 1)
