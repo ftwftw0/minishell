@@ -1,5 +1,7 @@
 Editeur de commandes :
 
+- cd - si pas d'env
+
 - buildin cd, suivre liens symboliques
 
 - leaks

@@ -6,7 +6,7 @@
 /*   By: flagoutt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/05/10 19:12:05 by flagoutt          #+#    #+#             */
-/*   Updated: 2016/03/23 07:46:46 by flagoutt         ###   ########.fr       */
+/*   Updated: 2016/03/23 08:37:50 by flagoutt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,8 @@ static void	checkinputs_splitted(char input, char *buff,
 
 static int	add_to_history(char *buff, t_history *history)
 {
+	if (!history || !buff)
+		return (-1);
 	if (history->history[history->size] != NULL)
 	{
 		free(history->history[history->size]);
