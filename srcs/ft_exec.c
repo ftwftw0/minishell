@@ -6,7 +6,7 @@
 /*   By: flagoutt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/11/22 17:00:39 by flagoutt          #+#    #+#             */
-/*   Updated: 2016/03/22 19:07:57 by flagoutt         ###   ########.fr       */
+/*   Updated: 2016/03/23 07:48:17 by flagoutt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,9 +54,6 @@ static void	tryexec(const char *path, t_execdata *data)
 		if (dup2(data->fd[0], 0) == -1)
 			perror("dup2 du stdin");
 	}
-	printf("STDIN = %i\n", data->fd[0]);
-	printf("STDOUT = %i\n", data->fd[1]);
-	printf("STDERR = %i\n", data->fd[2]);
 	close_fds(data);
 	execve(path, data->av, data->env);
 }

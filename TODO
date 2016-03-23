@@ -1,12 +1,6 @@
 Editeur de commandes :
 
-- Cette commande ne marcheuh paaas : cat | cat -e
-
-- completion qui bug !
-
 - buildin cd, suivre liens symboliques
-
-- Eventuellement les || et && grace a waitpid
 
 - leaks
 

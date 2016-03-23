@@ -6,7 +6,7 @@
 /*   By: flagoutt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/05/15 14:04:16 by flagoutt          #+#    #+#             */
-/*   Updated: 2016/03/10 16:49:54 by flagoutt         ###   ########.fr       */
+/*   Updated: 2016/03/23 07:47:44 by flagoutt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ void		handler(int signal)
 		getcwd(g_buff, BUFF_SIZE);
 		showprompt(g_buff);
 		ft_bzero(g_buff, BUFF_SIZE);
+		g_cursor = g_buff;
 	}
 	else if (signal == SIGSEGV)
 	{

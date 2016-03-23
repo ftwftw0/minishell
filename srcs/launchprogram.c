@@ -6,7 +6,7 @@
 /*   By: flagoutt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/04 01:07:27 by flagoutt          #+#    #+#             */
-/*   Updated: 2016/03/22 18:53:10 by flagoutt         ###   ########.fr       */
+/*   Updated: 2016/03/23 07:27:43 by flagoutt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,14 +145,13 @@ int			launchprogram(t_execdata *data, t_execdata *tmp)
 		if ((ret = ((tmp != NULL) ? execbi(tmp->av[0], tmp) :
 					execbi(data->av[0], data))) == 0)
 		{
+			unsetallsignal();
+			termdeinit();
 			shell = fork();
 			if (shell > 0)
 			{
-				unsetallsignal();
-		// PENSER A FAIRE LES || ET &&, waitpid(...)
 				wait(&shell);
-		// VOILA
-
+				terminit();
 				setallsignal();
 			}
 			else if (shell == 0 && childexec(data, tmp) == 1)

@@ -6,7 +6,7 @@
 /*   By: flagoutt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/05/10 19:12:05 by flagoutt          #+#    #+#             */
-/*   Updated: 2016/03/17 20:49:45 by flagoutt         ###   ########.fr       */
+/*   Updated: 2016/03/23 07:46:46 by flagoutt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,14 @@ static void	mvbackspace(char *buff, char **ptr)
 static void	checkinputs_splitted(char input, char *buff,
 								char **ptr, t_history *history)
 {
-	if (input == 127 || input == 126)
+	if (input == 127)
 		mvbackspace(buff, ptr);
+	else if (input == 126)
+	{
+		ft_putchar('~');
+		**ptr = '~';
+		(*ptr)++;
+	}
 	else if (input == 9)
 		completion(buff, ptr);
 	else if (input < 0)
@@ -60,24 +66,31 @@ static void	checkinputs_splitted(char input, char *buff,
 	}
 }
 
+static int	add_to_history(char *buff, t_history *history)
+{
+	if (history->history[history->size] != NULL)
+	{
+		free(history->history[history->size]);
+		history->history[history->size] = NULL;
+	}
+	if (buff[0] && ft_strlen(buff) > 0 &&
+		(history->size == 0 ||
+		 ft_strcmp(buff, history->history[history->size - 1])))
+	{
+		history->history[history->size] = NULL;
+		add_str_to_tab(&(history->history), buff);
+		history->current = history->size++;
+		ft_putendl_fd(buff, history->fd);
+	}
+	history->current = history->size;
+	return (0);
+}
+
 static int	checkinputs(char input, char *buff, char **ptr, t_history *history)
 {
 	if (input == '\n')
 	{
-		if (history->history[history->size] != NULL)
-		{
-			free(history->history[history->size]);
-			history->history[history->size] = NULL;
-		}
-		if (buff[0] && ft_strlen(buff) > 0 &&
-			(history->size == 0 ||
-			ft_strcmp(buff, history->history[history->size - 1])))
-		{
-			history->history[history->size] = NULL;
-			add_str_to_tab(&(history->history), buff);
-			history->current = history->size++;
-		}
-		history->current = history->size;
+		add_to_history(buff, history);
 		mvcright(ft_strlen(*ptr));
 		return (1);
 	}
@@ -117,24 +130,23 @@ static int	command_well_formated(char *buff)
 int			getinputs(char *buff, t_history *history)
 {
 	char	input;
-	char	*ptr;
 	int		ret;
 
-	ptr = buff;
+	g_cursor = buff;
 	input = 0;
 	while ((ret = read(0, &input, 1)) >= 0)
 	{
 		if (ret == 0)
 			return (-1);
-		ret = checkinputs(input, buff, &ptr, history);
+		ret = checkinputs(input, buff, &g_cursor, history);
 		if (ret <= 1)
 		{
 			while (!command_well_formated(buff))
 			{
 				ft_putstr("\n > ");
-				ptr = &buff[ft_strlen(buff)];
+				g_cursor = &buff[ft_strlen(buff)];
 				while (read(0, &input, 1) && 
-					   (ret = checkinputs(input, &buff[ft_strlen(buff)], &ptr, history)) > 1)
+					   (ret = checkinputs(input, &buff[ft_strlen(buff)], &g_cursor, history)) > 1)
 					;
 			}
 			break ;

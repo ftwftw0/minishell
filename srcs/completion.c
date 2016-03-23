@@ -6,7 +6,7 @@
 /*   By: flagoutt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/05/11 19:53:47 by flagoutt          #+#    #+#             */
-/*   Updated: 2016/03/23 02:43:03 by flagoutt         ###   ########.fr       */
+/*   Updated: 2016/03/23 06:24:22 by flagoutt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static t_elem	*ft_createlem(char *name, int size, t_elem *prev, t_elem *next)
 	return (elem);
 }
 
-static t_elem	*ft_creatlist(char *buff)
+static t_elem	*ft_creatlist(char *dir, char *buff)
 {
 	struct dirent	*pwd;
 	t_elem			*list;
@@ -32,7 +32,7 @@ static t_elem	*ft_creatlist(char *buff)
 	DIR				*fd;
 
 	list = NULL;
-	if (!(fd = opendir(".")))
+	if (!(fd = opendir(dir)))
 		return (NULL);
 	(ft_strncmp(buff, "./", 2) == 0) ? buff = buff + 2 : 0;
 	while (list == NULL && (pwd = readdir(fd)))
@@ -53,14 +53,16 @@ static t_elem	*ft_creatlist(char *buff)
 static void		completionnext(t_elem *list, char *tmp, char *buff, char **ptr)
 {
 	char	*ptrr;
+	int i;
 
 	if (list->next == NULL)
 	{
 		(!ft_strncmp(tmp, "./", 2)) ? ft_strcpy(tmp + 2, list->name) :
 										ft_strcpy(tmp, list->name);
 		tmp = tgetstr("le", NULL);
-		while (
-		tputs(tmp, 1, custom_putchar);
+		i = 100;
+		while (i--)
+			tputs(tmp, 1, custom_putchar);
 	}
 	else if ((ptrr = ft_select(list)))
 	{
@@ -72,6 +74,21 @@ static void		completionnext(t_elem *list, char *tmp, char *buff, char **ptr)
 	(*ptr) = &(buff[ft_strlen(buff)]);
 }
 
+char *gethomepath(char *buff)
+{
+	char *home;
+
+	if ((home = ft_getenv(g_env, "HOME")) != NULL)
+    {
+		if (home[ft_strlen(home) - 1] == '/')
+			home[ft_strlen(home) - 1] = '\0';
+		ft_memmove(buff, &buff[ft_strlen(home) - 1], ft_strlen(buff));
+		ft_strcpy(buff, home);
+        free(home);
+    }
+	return (buff);
+}
+
 void			completion(char *buff, char **ptr)
 {
 	t_elem	*list;
@@ -79,11 +96,25 @@ void			completion(char *buff, char **ptr)
 	char	*tmp;
 	char	yebuf[BUFF_SIZE];
 
+	ft_bzero((char *)yebuf, BUFF_SIZE);
 	ptrr = buff;
 	tmp = buff;
 	while ((ptrr = ft_strchr(ptrr + 1, ' ')))
 		tmp = ptrr + 1;
-	if ((list = ft_creatlist(tmp)))
+	list = NULL;
+	if (*tmp == '~')
+		gethomepath(tmp);
+	if (!list && *tmp == '/')
+	{
+		ptrr = tmp;
+		while (ft_strchr(tmp, '/'))
+			tmp = ft_strchr(tmp, '/') + 1;
+		ft_strncpy(yebuf, ptrr, tmp - ptrr);
+		list = ft_creatlist(yebuf, tmp);
+	}
+	if (!list && (!ptrr || !ft_strchr(ptrr, '/')))
+		list = ft_creatlist(".", tmp);
+	if (list)
 	{
 		completionnext(list, tmp, buff, ptr);
 		showprompt(getcwd(yebuf, BUFF_SIZE));

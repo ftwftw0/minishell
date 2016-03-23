@@ -6,7 +6,7 @@
 /*   By: flagoutt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/11/22 17:00:39 by flagoutt          #+#    #+#             */
-/*   Updated: 2016/03/10 17:52:07 by flagoutt         ###   ########.fr       */
+/*   Updated: 2016/03/23 07:58:58 by flagoutt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,8 +73,8 @@ int			main(int argc, char **argv, char **env)
 		else if (launchcommands(g_buff, child) == 0)
 			return (0);
 	}
-	ft_deinit(child, history);
 	if (isatty(0))
 		ft_goodbye();
+	ft_deinit(child, history);
 	return (1);
 }

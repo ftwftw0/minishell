@@ -6,30 +6,47 @@
 /*   By: flagoutt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/05/10 18:56:47 by flagoutt          #+#    #+#             */
-/*   Updated: 2016/03/10 17:51:39 by flagoutt         ###   ########.fr       */
+/*   Updated: 2016/03/23 07:28:19 by flagoutt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh1.h"
 
-static int		terminit(void)
+int		termdeinit(void)
 {
 	struct termios	term;
 	char			*termname;
 
-	if (!(termname = getenv("TERM")))
-	{
-		if ((tgetent(NULL, "xterm-256color") == -1) ||
-			(tcgetattr(0, &(term)) == -1))
-			return (-1);
-	}
-	else if (tgetent(NULL, termname) == -1 ||
+    if (!(termname = ft_getenv(g_env, "TERM")))
+        termname = ft_strdup("xterm-256color");
+    if ((tgetent(NULL, termname) == -1) ||
+        (tcgetattr(g_ttyfd, &(term)) == -1))
+        return (-1);
+	free(termname);
+    term.c_lflag |= ICANON;
+    term.c_lflag |= ECHO;
+    term.c_cc[VMIN] = 0;
+    term.c_cc[VTIME] = 0;
+    if (tcsetattr(g_ttyfd, TCSADRAIN, &(term)) == -1)
+    {
+        ft_putendl_fd("Can't initialize terminal infos", 2);
+        return (-1);
+    }
+	return (0);
+}
+
+int		terminit(void)
+{
+	struct termios	term;
+	char			*termname;
+
+	if (!(termname = ft_getenv(g_env, "TERM")))
+		termname = ft_strdup("xterm-256color");
+	if (tgetent(NULL, termname) == -1 ||
 			(g_ttyfd = open("/dev/tty", O_RDWR)) == -1 ||
 			tcgetattr(g_ttyfd, &term) == -1)
-	{
-		perror("tcgetattr");
 		return (-1);
-	}
+	free(termname);
 	term.c_lflag &= ~(ICANON | ECHO);
 	term.c_cc[VMIN] = 1;
 	term.c_cc[VTIME] = 0;
@@ -63,6 +80,7 @@ static int		loadhistory(t_history *history, char **env)
 	char	*home;
 	char	*tmp;
 
+	g_env = env;
 	history->history = (char **)malloc(sizeof(char *) * 1);
 	history->size = 0;
 	history->history[0] = NULL;
