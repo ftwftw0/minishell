@@ -6,7 +6,7 @@
 /*   By: flagoutt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/03/23 18:36:00 by flagoutt          #+#    #+#             */
-/*   Updated: 2016/03/11 14:54:51 by flagoutt         ###   ########.fr       */
+/*   Updated: 2016/03/23 02:31:45 by flagoutt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,11 @@
 
 static void	deinit_norm(t_history *history)
 {
-	ft_freetab(&(history->history));
-	close(history->fd);
+	if (history)
+	{
+		ft_freetab(&(history->history));
+		close(history->fd);
+	}
 	close(g_ttyfd);
 	free(g_buff);
 }

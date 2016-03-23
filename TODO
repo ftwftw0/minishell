@@ -1,6 +1,5 @@
 Editeur de commandes :
 
-- echo lol | exit | cat | cat -e
 - Cette commande ne marcheuh paaas : cat | cat -e
 
 - completion qui bug !

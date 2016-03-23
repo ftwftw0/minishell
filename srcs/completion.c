@@ -6,7 +6,7 @@
 /*   By: flagoutt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/05/11 19:53:47 by flagoutt          #+#    #+#             */
-/*   Updated: 2016/02/16 12:18:15 by flagoutt         ###   ########.fr       */
+/*   Updated: 2016/03/23 02:43:03 by flagoutt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,9 +58,9 @@ static void		completionnext(t_elem *list, char *tmp, char *buff, char **ptr)
 	{
 		(!ft_strncmp(tmp, "./", 2)) ? ft_strcpy(tmp + 2, list->name) :
 										ft_strcpy(tmp, list->name);
-		tmp = tgetstr("cb", NULL);
+		tmp = tgetstr("le", NULL);
+		while (
 		tputs(tmp, 1, custom_putchar);
-		mvcleft(1000);
 	}
 	else if ((ptrr = ft_select(list)))
 	{
