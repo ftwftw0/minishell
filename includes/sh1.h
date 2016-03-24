@@ -6,7 +6,7 @@
 /*   By: flagoutt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/03/22 02:00:31 by flagoutt          #+#    #+#             */
-/*   Updated: 2016/03/23 07:47:00 by flagoutt         ###   ########.fr       */
+/*   Updated: 2016/03/24 09:46:32 by flagoutt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,5 +96,7 @@ void			mvcprevword(char *buff, char **ptr);
 void			mvcnextword(char *buff, char **ptr);
 int				terminit(void);
 int				termdeinit(void);
+int				command_well_formated(char *buff);
+char			*gethomepath(char *buff);
 
 #endif

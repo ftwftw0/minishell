@@ -6,7 +6,7 @@
 /*   By: flagoutt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/05/10 21:49:56 by flagoutt          #+#    #+#             */
-/*   Updated: 2016/03/17 19:54:38 by flagoutt         ###   ########.fr       */
+/*   Updated: 2016/03/24 08:05:15 by flagoutt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static void	history_up(char *buff, char **ptr, t_history *history)
 			if (history->history[history->size])
 				free(history->history[history->size]);
 			history->history[history->size] = ft_strdup(buff);
-			}
+		}
 		history->current--;
 		mvcleft(*ptr - buff);
 		ft_memset(buff, ' ', ft_strlen(buff));
@@ -53,6 +53,22 @@ static void	history_down(char *buff, char **ptr, t_history *history)
 	}
 }
 
+static void	splitted_mvcursor(char inputs[3], char *buff, char **ptr)
+{
+	if (inputs[1] == 72)
+		mvcstart(buff, ptr);
+	else if (inputs[1] == 70)
+		mvcend(ptr);
+	else if (inputs[0] == 27 && inputs[2] == 'A')
+		mvclineup(buff, ptr);
+	else if (inputs[0] == 27 && inputs[2] == 'B')
+		mvclinedown(buff, ptr);
+	else if (inputs[0] == 27 && inputs[2] == 'C')
+		mvcnextword(buff, ptr);
+	else if (inputs[0] == 27 && inputs[2] == 'D')
+		mvcprevword(buff, ptr);
+}
+
 void		mvcursor(char *buff, char **ptr, t_history *history)
 {
 	char inputs[3];
@@ -72,16 +88,6 @@ void		mvcursor(char *buff, char **ptr, t_history *history)
 		mvcright(1);
 		(*ptr)++;
 	}
-	else if (inputs[1] == 72)
-		mvcstart(buff, ptr);
-	else if (inputs[1] == 70)
-		mvcend(ptr);
-	else if (inputs[0] == 27 && inputs[2] == 'A')
-		mvclineup(buff, ptr);
-	else if (inputs[0] == 27 && inputs[2] == 'B')
-		mvclinedown(buff, ptr);
-	else if (inputs[0] == 27 && inputs[2] == 'C')
-		mvcnextword(buff, ptr);
-	else if (inputs[0] == 27 && inputs[2] == 'D')
-		mvcprevword(buff, ptr);
+	else
+		splitted_mvcursor(inputs, buff, ptr);
 }

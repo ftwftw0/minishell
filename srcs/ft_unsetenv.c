@@ -6,7 +6,7 @@
 /*   By: flagoutt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/03/24 15:14:26 by flagoutt          #+#    #+#             */
-/*   Updated: 2016/03/15 16:04:19 by flagoutt         ###   ########.fr       */
+/*   Updated: 2016/03/24 08:57:54 by flagoutt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,8 @@ static char	**reallocdelenv(char **env, int envsize, int index)
 		envsize++;
 	}
 	free(env[envsize]);
-	envsize++;
-	while (env[envsize])
-		newenv[index++] = env[envsize++];
+	while (env[++envsize])
+		newenv[index++] = env[envsize];
 	newenv[envsize ? envsize - 1 : 0] = NULL;
 	free(env);
 	return (newenv);
@@ -44,8 +43,6 @@ int			ft_unsetenv(t_execdata *data, const char *name)
 	envsize = 0;
 	while (data->env[envsize])
 		envsize++;
-	if (!(data->env))
-		return (-1);
 	i = -1;
 	while (++i < envsize)
 	{

@@ -6,13 +6,13 @@
 /*   By: flagoutt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/11/22 17:00:39 by flagoutt          #+#    #+#             */
-/*   Updated: 2016/03/23 07:48:17 by flagoutt         ###   ########.fr       */
+/*   Updated: 2016/03/24 07:52:15 by flagoutt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh1.h"
 
-static void close_fds(t_execdata *data)
+static void	close_fds(t_execdata *data)
 {
 	if (data->fd[1] != 1)
 	{
@@ -20,14 +20,12 @@ static void close_fds(t_execdata *data)
 			perror("close pipestdout");
 		data->fd[1] = 1;
 	}
-
 	if (data->fd[2] != 2)
 	{
 		if (data->fd[2] != 1 && close(data->fd[2]) == -1)
 			perror("close pipestdout");
 		data->fd[2] = 2;
 	}
-
 	if (data->fd[0] != 0)
 	{
 		if (data->fd[0] != 1 && close(data->fd[0]) == -1)
@@ -38,7 +36,6 @@ static void close_fds(t_execdata *data)
 
 static void	tryexec(const char *path, t_execdata *data)
 {
-
 	if (data->fd[1] != 1)
 	{
 		if (dup2(data->fd[1], 1) == -1)

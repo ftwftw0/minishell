@@ -6,11 +6,26 @@
 /*   By: flagoutt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/03/23 16:58:09 by flagoutt          #+#    #+#             */
-/*   Updated: 2016/03/23 02:33:08 by flagoutt         ###   ########.fr       */
+/*   Updated: 2016/03/24 08:54:05 by flagoutt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh1.h"
+
+char		*gethomepath(char *buff)
+{
+	char *home;
+
+	if ((home = ft_getenv(g_env, "HOME")) != NULL)
+	{
+		if (home[ft_strlen(home) - 1] == '/')
+			home[ft_strlen(home) - 1] = '\0';
+		ft_memmove(buff, &buff[ft_strlen(home) - 1], ft_strlen(buff));
+		ft_strcpy(buff, home);
+		free(home);
+	}
+	return (buff);
+}
 
 static void	execunsetenv(t_execdata *data)
 {

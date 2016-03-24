@@ -6,7 +6,7 @@
 /*   By: flagoutt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/05/11 19:53:47 by flagoutt          #+#    #+#             */
-/*   Updated: 2016/03/23 06:24:22 by flagoutt         ###   ########.fr       */
+/*   Updated: 2016/03/24 08:54:11 by flagoutt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ static t_elem	*ft_creatlist(char *dir, char *buff)
 static void		completionnext(t_elem *list, char *tmp, char *buff, char **ptr)
 {
 	char	*ptrr;
-	int i;
+	int		i;
 
 	if (list->next == NULL)
 	{
@@ -72,21 +72,15 @@ static void		completionnext(t_elem *list, char *tmp, char *buff, char **ptr)
 			ft_strcpy(tmp, ptrr);
 	}
 	(*ptr) = &(buff[ft_strlen(buff)]);
+	ft_putstr(buff);
 }
 
-char *gethomepath(char *buff)
+static void		holaaaa(char **ptrr, char **tmp, char *buff)
 {
-	char *home;
-
-	if ((home = ft_getenv(g_env, "HOME")) != NULL)
-    {
-		if (home[ft_strlen(home) - 1] == '/')
-			home[ft_strlen(home) - 1] = '\0';
-		ft_memmove(buff, &buff[ft_strlen(home) - 1], ft_strlen(buff));
-		ft_strcpy(buff, home);
-        free(home);
-    }
-	return (buff);
+	*ptrr = buff;
+	*tmp = buff;
+	while ((*ptrr = ft_strchr(*ptrr + 1, ' ')))
+		*tmp = *ptrr + 1;
 }
 
 void			completion(char *buff, char **ptr)
@@ -97,10 +91,7 @@ void			completion(char *buff, char **ptr)
 	char	yebuf[BUFF_SIZE];
 
 	ft_bzero((char *)yebuf, BUFF_SIZE);
-	ptrr = buff;
-	tmp = buff;
-	while ((ptrr = ft_strchr(ptrr + 1, ' ')))
-		tmp = ptrr + 1;
+	holaaaa(&ptrr, &tmp, buff);
 	list = NULL;
 	if (*tmp == '~')
 		gethomepath(tmp);
@@ -114,10 +105,8 @@ void			completion(char *buff, char **ptr)
 	}
 	if (!list && (!ptrr || !ft_strchr(ptrr, '/')))
 		list = ft_creatlist(".", tmp);
-	if (list)
-	{
-		completionnext(list, tmp, buff, ptr);
-		showprompt(getcwd(yebuf, BUFF_SIZE));
-		ft_putstr(buff);
-	}
+	if (!list)
+		return ;
+	completionnext(list, tmp, buff, ptr);
+	showprompt(getcwd(yebuf, BUFF_SIZE));
 }

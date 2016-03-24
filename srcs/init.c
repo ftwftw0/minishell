@@ -6,36 +6,36 @@
 /*   By: flagoutt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/05/10 18:56:47 by flagoutt          #+#    #+#             */
-/*   Updated: 2016/03/23 07:28:19 by flagoutt         ###   ########.fr       */
+/*   Updated: 2016/03/24 08:58:42 by flagoutt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh1.h"
 
-int		termdeinit(void)
+int				termdeinit(void)
 {
 	struct termios	term;
 	char			*termname;
 
-    if (!(termname = ft_getenv(g_env, "TERM")))
-        termname = ft_strdup("xterm-256color");
-    if ((tgetent(NULL, termname) == -1) ||
-        (tcgetattr(g_ttyfd, &(term)) == -1))
-        return (-1);
+	if (!(termname = ft_getenv(g_env, "TERM")))
+		termname = ft_strdup("xterm-256color");
+	if ((tgetent(NULL, termname) == -1) ||
+		(tcgetattr(g_ttyfd, &(term)) == -1))
+		return (-1);
 	free(termname);
-    term.c_lflag |= ICANON;
-    term.c_lflag |= ECHO;
-    term.c_cc[VMIN] = 0;
-    term.c_cc[VTIME] = 0;
-    if (tcsetattr(g_ttyfd, TCSADRAIN, &(term)) == -1)
-    {
-        ft_putendl_fd("Can't initialize terminal infos", 2);
-        return (-1);
-    }
+	term.c_lflag |= ICANON;
+	term.c_lflag |= ECHO;
+	term.c_cc[VMIN] = 0;
+	term.c_cc[VTIME] = 0;
+	if (tcsetattr(g_ttyfd, TCSADRAIN, &(term)) == -1)
+	{
+		ft_putendl_fd("Can't initialize terminal infos", 2);
+		return (-1);
+	}
 	return (0);
 }
 
-int		terminit(void)
+int				terminit(void)
 {
 	struct termios	term;
 	char			*termname;

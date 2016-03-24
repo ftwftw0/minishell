@@ -6,7 +6,7 @@
 /*   By: flagoutt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/04 01:07:27 by flagoutt          #+#    #+#             */
-/*   Updated: 2016/03/23 07:27:43 by flagoutt         ###   ########.fr       */
+/*   Updated: 2016/03/24 08:32:12 by flagoutt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,21 @@ static void	rmv_entrie_in_avtable(char ***avptra)
 	}
 }
 
+static void	redir_from_to(t_execdata *data, char *a, char *b, int append)
+{
+	append = (append) ? O_APPEND : 0;
+	if (b[0] == '&')
+	{
+		if (b[1] == '-')
+			data->fd[ft_atoi(a)] = open("/dev/null", O_WRONLY);
+		else
+			data->fd[ft_atoi(a)] = ft_atoi((b + 1));
+	}
+	else
+		data->fd[ft_atoi(a)] = open(b, O_CREAT | O_RDWR | O_TRUNC | append,
+					S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH);
+}
+
 static int	fd_redirect(t_execdata *data, char ***avptra)
 {
 	int		append;
@@ -42,94 +57,65 @@ static int	fd_redirect(t_execdata *data, char ***avptra)
 	if (part[0] && part[1] && !part[2])
 	{
 		if (ft_isnumber(part[0]))
-		{
-			printf("Redirecting %s to %s\n", part[0], part[1]);
-			if (part[1][0] == '&')
-			{
-				if (part[1][1] == '-')
-					data->fd[ft_atoi(part[0])] = open("/dev/null", O_WRONLY);
-				else
-					data->fd[ft_atoi(part[0])] = ft_atoi((part[1] + 1));
-			}
-			else
-				data->fd[ft_atoi(part[0])] = open(part[1], O_CREAT | O_RDWR | O_TRUNC | append,
-						S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH);
-		}
+			redir_from_to(data, part[0], part[1], append);
 		else if (!ft_strcmp("&", part[0]))
 		{
-			printf("Redirecting stdout & stderr to %s\n", part[1]);
-			if (part[1][0] == '&')
-			{
-				if (part[1][1] == '-')
-					data->fd[ft_atoi(part[0])] = open("/dev/null", O_WRONLY);
-				else
-					data->fd[1] = ft_atoi((part[1] + 1));
-			}
-			else
-				data->fd[1] = open(part[1], O_CREAT | O_RDWR | O_TRUNC | append,
-						S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH);
+			redir_from_to(data, "1", part[1], append);
 			data->fd[2] = data->fd[1];
 		}
 		else
 			return (-1);
 	}
 	else if (part[0] && !part[1])
-	{
-		printf("Redirecting stdout to %s\n", part[0]);
-		if (part[0][0] == '&')
-		{
-			if (part[0][1] == '-')
-				data->fd[1] = open("/dev/null", O_WRONLY);
-			else
-				data->fd[1] = ft_atoi(part[0] + 1);
-		}
-		else
-			data->fd[1] = open(part[0], O_CREAT | O_RDWR | O_TRUNC | append,
-				   S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH);
-	}
+		redir_from_to(data, "1", part[0], append);
 	ft_freetab(&part);
 	rmv_entrie_in_avtable(avptra);
 	return (0);
 }
 
+static int	inside_io_redirect(t_execdata *data, char ***avptr)
+{
+	if (!ft_strcmp(**avptr, ">") && *(*avptr + 1) != NULL)
+		out_to_file(data, avptr, 0);
+	else if (!ft_strcmp(**avptr, ">>") && *(*avptr + 1) != NULL)
+		out_to_file(data, avptr, 1);
+	else if (!ft_strcmp(**avptr, "<") && *(*avptr + 1) != NULL)
+	{
+		if (in_from_file(data, avptr) == -1)
+			return (-1);
+	}
+	else if (!ft_strcmp(**avptr, "<<") && *(*avptr + 1) != NULL)
+	{
+		if (in_from_stdin(data, avptr) == -1)
+			return (-1);
+	}
+	else if (ft_strchr(**avptr, '>'))
+	{
+		if (fd_redirect(data, avptr) == -1)
+		{
+			ft_putendl_fd("invalid fd redirection", 2);
+			return (-1);
+		}
+	}
+	return (0);
+}
+
 static int	io_redirect(t_execdata *data, t_execdata *tmp)
 {
-	char **avptr;
+	char	**avptr;
+	int		ret;
 
 	avptr = data->av;
+	ret = 0;
 	while (*avptr)
 	{
-		if (!ft_strcmp(*avptr, ">") && *(avptr + 1) != NULL)
-			out_to_file(data, &avptr, 0);
-		else if (!ft_strcmp(*avptr, ">>") && *(avptr + 1) != NULL)
-			out_to_file(data, &avptr, 1);
-		else if (!ft_strcmp(*avptr, "<") && *(avptr + 1) != NULL)
-		{
-			if (in_from_file(data, &avptr) == -1)
-				return (-1);
-		}
-		else if (!ft_strcmp(*avptr, "<<") && *(avptr + 1) != NULL)
-		{
-			if (in_from_stdin(data, &avptr) == -1)
-				return (-1);
-		}
-		else if (ft_strchr(*avptr, '>'))
-		{
-			if (fd_redirect(data, &avptr) == -1)
-			{
-				ft_putendl_fd("invalid fd redirection", 2);
-				return (-1);
-			}
-		}
-		else
+		if ((ret = inside_io_redirect(data, &avptr)) == -1)
+			return (-1);
+		else if (ret == 0)
 			avptr++;
 	}
 	if (tmp)
-	{
-		tmp->fd[0] = data->fd[0];
-		tmp->fd[1] = data->fd[1];
-		tmp->fd[2] = data->fd[2];
-	}
+		ft_memcpy((char *)(tmp->fd), (char *)(data->fd), 3 * sizeof(int));
 	return (1);
 }
 

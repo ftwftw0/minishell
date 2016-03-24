@@ -6,7 +6,7 @@
 /*   By: flagoutt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/09 14:40:40 by flagoutt          #+#    #+#             */
-/*   Updated: 2016/03/17 17:09:34 by flagoutt         ###   ########.fr       */
+/*   Updated: 2016/03/24 07:58:40 by flagoutt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,10 @@ void	mvcbot(void)
 
 void	mvcleft(int size)
 {
-	struct winsize w;
-	char *tmp;
+	struct winsize	w;
+	char			*tmp;
 
-    ioctl(STDOUT_FILENO, TIOCGWINSZ, &w);
+	ioctl(STDOUT_FILENO, TIOCGWINSZ, &w);
 	tmp = tgetstr("le", NULL);
 	while (size--)
 	{
@@ -49,10 +49,10 @@ void	mvcleft(int size)
 
 void	mvcright(int size)
 {
-	struct winsize w;
-	char *tmp;
+	struct winsize	w;
+	char			*tmp;
 
-    ioctl(STDOUT_FILENO, TIOCGWINSZ, &w);
+	ioctl(STDOUT_FILENO, TIOCGWINSZ, &w);
 	tmp = tgetstr("nd", NULL);
 	while (size--)
 	{
@@ -60,5 +60,19 @@ void	mvcright(int size)
 			tputs(tgetstr("do", NULL), 1, custom_putchar);
 		else
 			tputs(tmp, 1, custom_putchar);
+	}
+}
+
+void	mvcprevword(char *buff, char **ptr)
+{
+	while (*ptr > buff && ft_isspace(**ptr))
+	{
+		(*ptr)--;
+		mvcleft(1);
+	}
+	while (*ptr > buff && !ft_isspace(**ptr))
+	{
+		(*ptr)--;
+		mvcleft(1);
 	}
 }

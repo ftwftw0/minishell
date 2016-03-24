@@ -6,11 +6,21 @@
 /*   By: flagoutt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/03 16:42:30 by flagoutt          #+#    #+#             */
-/*   Updated: 2016/03/22 19:05:53 by flagoutt         ###   ########.fr       */
+/*   Updated: 2016/03/24 08:03:10 by flagoutt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "sh1.h"
+
+static void	okay_allright(t_execdata *child, char **commands, int fdin, int i)
+{
+	child->av = ft_spacestrsplit(commands[i]);
+	child->fd[0] = 0;
+	child->fd[1] = 1;
+	child->fd[2] = 2;
+	if (i)
+		child->fd[0] = fdin;
+}
 
 int		pipedcommands(char *buff, t_execdata *child)
 {
@@ -25,13 +35,7 @@ int		pipedcommands(char *buff, t_execdata *child)
 	while (commands[++i])
 	{
 		pipe(pipedfd);
-		child->av = ft_spacestrsplit(commands[i]);
-		ft_memset((void *)(child->fd), 0, sizeof(int) * MAX_FD);
-		child->fd[0] = 0;
-		child->fd[1] = 1;
-		child->fd[2] = 2;
-		if (i)
-			child->fd[0] = fdin;
+		okay_allright(child, commands, fdin, i);
 		if (commands[i + 1])
 			child->fd[1] = pipedfd[1];
 		if (launchprogram(child, NULL) == 0)

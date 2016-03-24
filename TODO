@@ -1,11 +1,7 @@
 Editeur de commandes :
 
-- cd - si pas d'env
-
 - buildin cd, suivre liens symboliques
 
 - leaks
-
-- ctrl+D et ctrl+C dans l’édition de la ligne ?!?!?!!!
 
 - double free CTRL-D

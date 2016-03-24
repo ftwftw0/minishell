@@ -6,7 +6,7 @@
 /*   By: flagoutt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/02 14:42:46 by flagoutt          #+#    #+#             */
-/*   Updated: 2016/03/10 14:24:31 by flagoutt         ###   ########.fr       */
+/*   Updated: 2016/03/24 07:26:50 by flagoutt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static void	alt_c_endcopy(char *buff, char **ptr, int *startpos, char *copy)
 		mvcright(*ptr - buff - *startpos);
 	}
 	else
-			mvcleft(*ptr - buff - *startpos);
+		mvcleft(*ptr - buff - *startpos);
 	ft_strncpy(copy, &buff[*startpos], *ptr - buff - *startpos);
 	*ptr = &buff[*startpos];
 	if (tmp)

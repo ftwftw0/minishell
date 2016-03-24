@@ -6,7 +6,7 @@
 /*   By: flagoutt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/09 14:45:47 by flagoutt          #+#    #+#             */
-/*   Updated: 2016/03/22 16:18:04 by flagoutt         ###   ########.fr       */
+/*   Updated: 2016/03/24 08:52:50 by flagoutt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,8 @@ static void	rmv_entries_in_avtable(char ***avptra)
 
 int			out_to_file(t_execdata *data, char ***avptra, int append)
 {
-	append = (append) ? O_APPEND : 0;
-	data->fd[1] = open(*((*avptra) + 1), O_CREAT | O_RDWR | O_TRUNC | append,
+	append = (append) ? O_APPEND : O_TRUNC;
+	data->fd[1] = open(*((*avptra) + 1), O_CREAT | O_RDWR | append,
 					S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH);
 	rmv_entries_in_avtable(avptra);
 	return (0);
@@ -43,7 +43,7 @@ int			out_to_file(t_execdata *data, char ***avptra, int append)
 
 int			in_from_file(t_execdata *data, char ***avptra)
 {
-	int	 fd;
+	int	fd;
 
 	fd = open(*((*avptra) + 1), O_RDWR);
 	if (fd == -1)
@@ -66,8 +66,8 @@ static void	ctrlhandlstdin(int signal)
 int			in_from_stdin(t_execdata *data, char ***avptra)
 {
 	char	buff[BUFF_SIZE];
-	int	 pipedfd[2];
-	int	 ret;
+	int		pipedfd[2];
+	int		ret;
 
 	if (!ft_strcmp(*((*avptra) + 1), "EOF"))
 	{
@@ -80,7 +80,7 @@ int			in_from_stdin(t_execdata *data, char ***avptra)
 	{
 		ft_bzero(buff, BUFF_SIZE);
 		ft_putstr("heredoc > ");
-		if ((ret = getinputs(buff, NULL)) < 1 || !ft_strcmp(buff, *((*avptra) + 1)))
+		if ((ret = getinputs(buff, NULL)) < 1 || !ft_strcmp(buff, *(*avptra + 1)))
 			break ;
 		ft_putstr_fd(buff, pipedfd[1]);
 		ft_putchar_fd('\n', pipedfd[1]);

@@ -6,7 +6,7 @@
 /*   By: flagoutt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/10 16:19:47 by flagoutt          #+#    #+#             */
-/*   Updated: 2016/03/17 20:51:37 by flagoutt         ###   ########.fr       */
+/*   Updated: 2016/03/24 07:58:46 by flagoutt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,18 +66,3 @@ void	mvcnextword(char *buff, char **ptr)
 		mvcright(1);
 	}
 }
-
-void	mvcprevword(char *buff, char **ptr)
-{
-	while (*ptr > buff && ft_isspace(**ptr))
-	{
-		(*ptr)--;
-		mvcleft(1);
-	}
-	while (*ptr > buff && !ft_isspace(**ptr))
-	{
-		(*ptr)--;
-		mvcleft(1);
-	}
-}
-
