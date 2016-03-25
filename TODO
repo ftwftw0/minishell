@@ -4,4 +4,6 @@ Editeur de commandes :
 
 - leaks
 
-- double free CTRL-D
+- env -i 21sh does not work anymore
+
+- double free sometimes when leaving (CTRL-D...) ???

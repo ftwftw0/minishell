@@ -6,7 +6,7 @@
 /*   By: flagoutt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/05/10 18:56:47 by flagoutt          #+#    #+#             */
-/*   Updated: 2016/03/24 08:58:42 by flagoutt         ###   ########.fr       */
+/*   Updated: 2016/03/25 11:44:25 by flagoutt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,8 @@ static void		read_history_file(t_history *history)
 			history->size++;
 		}
 	}
+	if (tmp)
+		free(tmp);
 }
 
 static int		loadhistory(t_history *history, char **env)

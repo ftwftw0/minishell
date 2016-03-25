@@ -6,7 +6,7 @@
 /*   By: flagoutt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/05/10 19:12:05 by flagoutt          #+#    #+#             */
-/*   Updated: 2016/03/24 09:44:46 by flagoutt         ###   ########.fr       */
+/*   Updated: 2016/03/25 14:34:34 by flagoutt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static void	mvbackspace(char *buff, char **ptr)
 {
-    struct winsize	w;
+	struct winsize	w;
 	char			*tmp;
 	int				i;
 
@@ -65,33 +65,12 @@ static void	checkinputs_splitted(char input, char *buff,
 	}
 }
 
-static int	add_to_history(char *buff, t_history *history)
-{
-	if (!history || !buff)
-		return (-1);
-	if (history->history[history->size] != NULL)
-	{
-		free(history->history[history->size]);
-		history->history[history->size] = NULL;
-	}
-	if (buff[0] && ft_strlen(buff) > 0 &&
-		(history->size == 0 ||
-		ft_strcmp(buff, history->history[history->size - 1])))
-	{
-		history->history[history->size] = NULL;
-		add_str_to_tab(&(history->history), buff);
-		history->current = history->size++;
-		ft_putendl_fd(buff, history->fd);
-	}
-	history->current = history->size;
-	return (0);
-}
-
 static int	checkinputs(char input, char *buff, char **ptr, t_history *history)
 {
 	if (input == '\n')
 	{
-		add_to_history(buff, history);
+		if (history)
+			add_to_history(buff, history);
 		mvcright(ft_strlen(*ptr));
 		return (1);
 	}
@@ -105,30 +84,44 @@ static int	checkinputs(char input, char *buff, char **ptr, t_history *history)
 	return (2);
 }
 
+static int	keep_reading_command(char *buff)
+{
+	char	input;
+	int		ret;
+
+	ft_putstr("\n > ");
+	g_cursor = &buff[ft_strlen(buff)];
+	input = 0;
+	while (read(0, &input, 1))
+	{
+		g_cursor = &buff[ft_strlen(buff) + 1];
+		ret = checkinputs(input, &buff[ft_strlen(buff)], &g_cursor, NULL);
+		if (ret <= 1)
+			break ;
+		input = 0;
+	}
+	return (0);
+}
+
 int			getinputs(char *buff, t_history *history)
 {
 	char	input;
 	int		ret;
 
 	g_cursor = buff;
-	while (!(input = 0) && (ret = read(0, &input, 1)) >= 0)
+	while ((ret = read(0, &input, 1)) >= 0)
 	{
 		if (ret == 0)
 			return (-1);
 		if ((ret = checkinputs(input, buff, &g_cursor, history)) <= 1)
 		{
 			while (!command_well_formated(buff))
-			{
-				ft_putstr("\n > ");
-				g_cursor = &buff[ft_strlen(buff)];
-				while (read(0, &input, 1) &&
-  				(ret = checkinputs(input, &buff[ft_strlen(buff)], &g_cursor, history)) > 1)
-					;
-			}
+				keep_reading_command(buff);
 			break ;
 		}
 		else if (ret == -1)
 			return (-1);
+		input = 0;
 	}
 	ft_putchar('\n');
 	return (ret);

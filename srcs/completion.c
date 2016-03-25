@@ -6,7 +6,7 @@
 /*   By: flagoutt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/05/11 19:53:47 by flagoutt          #+#    #+#             */
-/*   Updated: 2016/03/24 08:54:11 by flagoutt         ###   ########.fr       */
+/*   Updated: 2016/03/25 14:42:53 by flagoutt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,6 @@ static void		completionnext(t_elem *list, char *tmp, char *buff, char **ptr)
 			ft_strcpy(tmp, ptrr);
 	}
 	(*ptr) = &(buff[ft_strlen(buff)]);
-	ft_putstr(buff);
 }
 
 static void		holaaaa(char **ptrr, char **tmp, char *buff)
@@ -109,4 +108,5 @@ void			completion(char *buff, char **ptr)
 		return ;
 	completionnext(list, tmp, buff, ptr);
 	showprompt(getcwd(yebuf, BUFF_SIZE));
+	ft_putstr(buff);
 }

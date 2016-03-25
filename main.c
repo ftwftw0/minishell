@@ -6,7 +6,7 @@
 /*   By: flagoutt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/11/22 17:00:39 by flagoutt          #+#    #+#             */
-/*   Updated: 2016/03/23 07:58:58 by flagoutt         ###   ########.fr       */
+/*   Updated: 2016/03/25 13:58:56 by flagoutt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,10 @@ int			launchcommands(char *buff, t_execdata *child)
 	while (commands[++i])
 	{
 		if (pipedcommands(commands[i], child) == 0)
+		{
+			ft_freetab(&commands);
 			return (0);
+		}
 	}
 	ft_freetab(&commands);
 	return (1);

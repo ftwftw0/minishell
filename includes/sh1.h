@@ -6,7 +6,7 @@
 /*   By: flagoutt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/03/22 02:00:31 by flagoutt          #+#    #+#             */
-/*   Updated: 2016/03/24 09:46:32 by flagoutt         ###   ########.fr       */
+/*   Updated: 2016/03/25 14:38:54 by flagoutt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,5 +98,8 @@ int				terminit(void);
 int				termdeinit(void);
 int				command_well_formated(char *buff);
 char			*gethomepath(char *buff);
+void			tryexec(const char *path, t_execdata *data);
+int				add_to_history(char *buff, t_history *history);
+int				io_redirect(t_execdata *data, t_execdata *tmp);
 
 #endif

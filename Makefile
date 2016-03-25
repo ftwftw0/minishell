@@ -6,7 +6,7 @@
 #    By: flagoutt <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/03/05 17:59:57 by flagoutt          #+#    #+#              #
-#    Updated: 2016/03/24 09:45:13 by flagoutt         ###   ########.fr        #
+#    Updated: 2016/03/25 14:39:09 by flagoutt         ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
@@ -58,6 +58,9 @@ SRCS = 	$(DIRSLCT)/inits.c \
 		$(DIRSRC)/fd_redirections.c \
 		$(DIRSRC)/get_cursor_pos.c \
 		$(DIRSRC)/globing.c \
+		$(DIRSRC)/tryexec.c \
+		$(DIRSRC)/add_to_history.c \
+		$(DIRSRC)/io_redirect.c \
 		main.c
 
 # **************************************************************************** #
@@ -76,7 +79,7 @@ DIRINC_SELECT	=	./ft_select/includes/
 # **************************************************************************** #
 
 CC			=	gcc -g
-CFLAG		=	-Wall -Wextra -Werror
+CFLAG		=	#-Wall -Wextra -Werror
 INCS		=	-I$(DIRINC) -I$(DIRINC_FT) -I$(DIRINC_SELECT)
 LIBS		=   -Llibft/ -lft -ltermcap
 

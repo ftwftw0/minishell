@@ -6,7 +6,7 @@
 /*   By: flagoutt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/09 14:45:47 by flagoutt          #+#    #+#             */
-/*   Updated: 2016/03/24 08:52:50 by flagoutt         ###   ########.fr       */
+/*   Updated: 2016/03/25 14:01:46 by flagoutt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ static void	ctrlhandlstdin(int signal)
 
 int			in_from_stdin(t_execdata *data, char ***avptra)
 {
-	char	buff[BUFF_SIZE];
+	char	b[BUFF_SIZE];
 	int		pipedfd[2];
 	int		ret;
 
@@ -78,11 +78,11 @@ int			in_from_stdin(t_execdata *data, char ***avptra)
 	signal(SIGINT, ctrlhandlstdin);
 	while (1)
 	{
-		ft_bzero(buff, BUFF_SIZE);
+		ft_bzero(b, BUFF_SIZE);
 		ft_putstr("heredoc > ");
-		if ((ret = getinputs(buff, NULL)) < 1 || !ft_strcmp(buff, *(*avptra + 1)))
+		if ((ret = getinputs(b, NULL)) < 1 || !ft_strcmp(b, *(*avptra + 1)))
 			break ;
-		ft_putstr_fd(buff, pipedfd[1]);
+		ft_putstr_fd(b, pipedfd[1]);
 		ft_putchar_fd('\n', pipedfd[1]);
 	}
 	signal(SIGINT, handler);
