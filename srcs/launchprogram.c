@@ -6,7 +6,7 @@
 /*   By: flagoutt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/25 14:37:26 by flagoutt          #+#    #+#             */
-/*   Updated: 2016/03/25 18:15:34 by flagoutt         ###   ########.fr       */
+/*   Updated: 2016/03/30 08:45:27 by flagoutt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static void	parent_process(pid_t *shell)
 	setallsignal();
 }
 
-int		 launchprogram(t_execdata *data, t_execdata *tmp)
+int			launchprogram(t_execdata *data, t_execdata *tmp)
 {
 	pid_t	shell;
 	int		ret;
@@ -42,6 +42,6 @@ int		 launchprogram(t_execdata *data, t_execdata *tmp)
 		else if (ret == 2)
 			return (2);
 	}
-    ft_freetab(&(data->av));
-    return (1);
+	ft_freetab(&(data->av));
+	return (1);
 }
