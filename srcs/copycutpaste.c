@@ -6,7 +6,7 @@
 /*   By: flagoutt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/02 14:42:46 by flagoutt          #+#    #+#             */
-/*   Updated: 2016/03/24 07:26:50 by flagoutt         ###   ########.fr       */
+/*   Updated: 2016/03/31 04:23:43 by flagoutt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ static void	alt_c_endcopy(char *buff, char **ptr, int *startpos, char *copy)
 	int tmp;
 
 	tmp = 0;
+	ft_bzero(copy, BUFF_SIZE);
 	if ((int)(*ptr - buff) < *startpos)
 	{
 		tmp = *startpos;

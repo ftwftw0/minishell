@@ -1,5 +1,7 @@
 - Autocompletion basique, directoire courant et solution unique
 - Autocompletion avancee, choix multiple, implementation d'un menu en termcaps comme dans ft_select, gestion de path avances, path absolus (/Volumes/nfs/etc.), paths relatifs (srcs/opts/) et home via ~
 - Prompt dynamique
+- Builtin pid
 - Ctrl A - Ctrl E - Goto end, goto start
+- Copier / couper / coller
 

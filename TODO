@@ -7,3 +7,5 @@ Editeur de commandes :
 - env -i 21sh does not work anymore
 
 - double free sometimes when leaving (CTRL-D...) ???
+
+- Ctrl D edition de ligne, agit comme un suppr.
