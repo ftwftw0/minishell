@@ -6,7 +6,7 @@
 /*   By: flagoutt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/05/10 18:56:47 by flagoutt          #+#    #+#             */
-/*   Updated: 2016/03/25 11:44:25 by flagoutt         ###   ########.fr       */
+/*   Updated: 2017/01/31 21:06:54 by flagoutt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ static int		loadhistory(t_history *history, char **env)
 		!(tmp = ft_strjoin(home, "/.myshhistory")) ||
 		(history->fd = open(tmp, O_CREAT | O_RDWR | O_APPEND, 0644)) == -1)
 	{
-		perror("cannot load command history file");
+		perror("Cannot load history file (no HOME env. variable, no rights)");
 		history->fd = 0;
 		return (0);
 	}
@@ -103,10 +103,9 @@ static int		loadhistory(t_history *history, char **env)
 int				init(char **buff, t_execdata **child,
 					char **env, t_history **history)
 {
-	if (((*buff) = (char *)malloc(sizeof(char) * BUFF_SIZE + 1)) == NULL)
-		return (-1);
-	if (((*history) = (t_history *)malloc(sizeof(t_history))) == NULL ||
-		loadhistory(*history, env) == -1)
+	if ((((*buff) = (char *)malloc(sizeof(char) * BUFF_SIZE + 1)) == NULL) ||
+		((*history) = (t_history *)malloc(sizeof(t_history))) == NULL ||
+		loadhistory(*history, env) == 0)
 		return (-1);
 	(*history)->current = ft_tablen((*history)->history);
 	if (((*child) = (t_execdata *)malloc(sizeof(t_execdata))) == NULL)

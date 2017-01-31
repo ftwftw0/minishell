@@ -4,8 +4,8 @@ Editeur de commandes :
 
 - leaks
 
-- env -i 21sh does not work anymore
+- env -i 21sh does not work anymore zhen there is no home variable to open the history file// DONE ?
 
-- double free sometimes when leaving (CTRL-D...) ???
+- double free sometimes when leaving (CTRL-D...) ??? // removed ft_deinits, now added a bunch of leaks
 
 - Ctrl D edition de ligne, agit comme un suppr.
