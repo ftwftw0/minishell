@@ -6,7 +6,7 @@
 /*   By: flagoutt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/03/23 16:38:42 by flagoutt          #+#    #+#             */
-/*   Updated: 2016/03/10 16:33:22 by flagoutt         ###   ########.fr       */
+/*   Updated: 2017/02/02 22:42:26 by flagoutt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,15 +20,15 @@ int		showprompt(char *currentdir)
 	return (1);
 }
 
-int		showstringtab(char **strtab)
+int		showstringtab(t_execdata *data)
 {
 	int i;
 
 	i = 0;
-	if (!strtab)
+	if (!(data->env) || !(data->env[0]))
 		return (0);
-	while (strtab[i])
-		ft_putendl(strtab[i++]);
+	while (data->env[i])
+		ft_putendl_fd(data->env[i++], data->fd[1]);
 	return (1);
 }
 

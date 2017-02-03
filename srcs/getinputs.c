@@ -6,7 +6,7 @@
 /*   By: flagoutt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/05/10 19:12:05 by flagoutt          #+#    #+#             */
-/*   Updated: 2016/03/25 14:34:34 by flagoutt         ###   ########.fr       */
+/*   Updated: 2017/02/03 05:03:56 by flagoutt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,7 @@ int			getinputs(char *buff, t_history *history)
 	{
 		if (ret == 0)
 			return (-1);
-		if ((ret = checkinputs(input, buff, &g_cursor, history)) <= 1)
+		if ((ret = checkinputs(input, buff, &g_cursor, history)) == 1 || ret == -1)
 		{
 			while (!command_well_formated(buff))
 				keep_reading_command(buff);

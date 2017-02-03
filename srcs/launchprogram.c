@@ -6,7 +6,7 @@
 /*   By: flagoutt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/25 14:37:26 by flagoutt          #+#    #+#             */
-/*   Updated: 2016/03/30 08:45:27 by flagoutt         ###   ########.fr       */
+/*   Updated: 2017/02/03 04:28:48 by flagoutt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,6 @@ int			launchprogram(t_execdata *data, t_execdata *tmp)
 			else if (shell == 0 && childexec(data, tmp) == 1)
 				return (0);
 		}
-		else if (ret == 2)
-			return (2);
 	}
 	ft_freetab(&(data->av));
 	return (1);

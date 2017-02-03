@@ -6,7 +6,7 @@
 /*   By: flagoutt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/03/23 16:00:57 by flagoutt          #+#    #+#             */
-/*   Updated: 2015/03/31 18:40:18 by flagoutt         ###   ########.fr       */
+/*   Updated: 2017/02/03 04:34:09 by flagoutt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,8 @@ static char	**ft_splitsplitted(char const *s, char **tab)
 			i++;
 			size++;
 		}
-		tab[words++] = ft_strsub(ptr, 0, size);
+		if (size)
+			tab[words++] = ft_strsub(ptr, 0, size);
 	}
 	return (tab);
 }

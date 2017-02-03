@@ -6,7 +6,7 @@
 /*   By: flagoutt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/03 16:42:30 by flagoutt          #+#    #+#             */
-/*   Updated: 2016/03/25 13:33:12 by flagoutt         ###   ########.fr       */
+/*   Updated: 2017/02/03 04:25:37 by flagoutt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,8 @@ int			pipedcommands(char *buff, t_execdata *child)
 			close(fdin);
 		fdin = pipedfd[0];
 	}
-	close(fdin);
+	if (commands[0])
+		close(fdin);
 	ft_freetab(&commands);
 	return (1);
 }

@@ -6,7 +6,7 @@
 /*   By: flagoutt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/03/22 02:00:31 by flagoutt          #+#    #+#             */
-/*   Updated: 2016/03/25 14:38:54 by flagoutt         ###   ########.fr       */
+/*   Updated: 2017/02/02 22:39:50 by flagoutt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ typedef struct	s_history
 
 int				custom_putchar(int c);
 int				showprompt(char *currentdir);
-int				showstringtab(char **strtab);
+int				showstringtab(t_execdata *data);
 char			**ft_tabstrdup(char **thetab);
 int				execbi(char *str, t_execdata *data);
 int				ft_env(t_execdata *data);

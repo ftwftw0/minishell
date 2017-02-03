@@ -6,7 +6,7 @@
 /*   By: flagoutt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/03/23 16:58:09 by flagoutt          #+#    #+#             */
-/*   Updated: 2016/03/24 08:54:05 by flagoutt         ###   ########.fr       */
+/*   Updated: 2017/02/03 01:22:46 by flagoutt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,37 @@ static void	execsetenv(t_execdata *data)
 		(use: setenv VAR=VALUE) [...]", 2);
 }
 
+static int execbi_split(char *str, t_execdata *data)
+{
+	int i;
+
+	i = 1;
+	if (!ft_strcmp(str, "echo"))
+	{
+		if (!ft_strcmp(data->av[1], "-n"))
+			i++;
+		while (data->av[i])
+		{
+			ft_putstr_fd(data->av[i++], data->fd[1]);
+			if (data->av[i])
+				ft_putchar_fd(' ', data->fd[1]);
+		}
+		if (ft_strcmp(data->av[1], "-n"))
+			ft_putchar_fd('\n', data->fd[1]);
+	}
+	else if (!ft_strcmp(str, "exit"))
+	{
+		ft_goodbye();		
+		if (data->av[1] && ft_isnumber(data->av[1]))
+			i = ft_atoi(data->av[1]);
+		ft_deinit(data, NULL);
+		exit(i);
+	}
+	else
+		return (0);
+	return (1);
+}
+
 int			execbi(char *str, t_execdata *data)
 {
 	if (!ft_strcmp(str, "env"))
@@ -76,13 +107,7 @@ int			execbi(char *str, t_execdata *data)
 		ft_putnbr(getpid());
 		ft_putchar('\n');
 	}
-	else if (!ft_strcmp(str, "exit"))
-	{
-		ft_goodbye();
-		ft_deinit(data, NULL);
-		exit(0);
-	}
-	else
+	else if (execbi_split(str, data) == 0)
 		return (0);
 	return (1);
 }

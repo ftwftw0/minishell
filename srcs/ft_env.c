@@ -6,7 +6,7 @@
 /*   By: flagoutt <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/03/23 17:56:41 by flagoutt          #+#    #+#             */
-/*   Updated: 2017/01/31 21:01:09 by flagoutt         ###   ########.fr       */
+/*   Updated: 2017/02/03 02:26:12 by flagoutt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ int			ft_env(t_execdata *data)
 
 	i = 1;
 	if (data->av[1] == NULL)
-		showstringtab(data->env);
+		showstringtab(data);
 	else if (!ft_strcmp(data->av[1], "-i") && data->av[2])
 	{
 		tmp = (t_execdata *)malloc(sizeof(t_execdata));
