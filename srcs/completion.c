@@ -72,6 +72,7 @@ static void		completionnext(t_elem *list, char *tmp, char *buff, char **ptr)
 			ft_strcpy(tmp, ptrr);
 	}
 	(*ptr) = &(buff[ft_strlen(buff)]);
+	ft_elem_lstdel(&list);
 }
 
 static void		holaaaa(char **ptrr, char **tmp, char *buff)

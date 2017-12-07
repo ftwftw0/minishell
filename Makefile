@@ -27,6 +27,7 @@ SRCS = 	$(DIRSLCT)/inits.c \
         $(DIRSLCT)/freelist.c \
         $(DIRSLCT)/ft_mklist.c \
         $(DIRSLCT)/ft_select.c \
+        $(DIRSLCT)/ft_elem_lstdel.c \
         $(DIRSLCT)/putselecteds.c \
         $(DIRSLCT)/showslct.c \
         $(DIRSLCT)/keyhooks.c \

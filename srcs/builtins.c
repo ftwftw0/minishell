@@ -60,11 +60,8 @@ static void	execsetenv(t_execdata *data)
 		(use: setenv VAR=VALUE) [...]", 2);
 }
 
-static int execbi_split(char *str, t_execdata *data)
+static int	execbi_split(char *str, t_execdata *data, int i)
 {
-	int i;
-
-	i = 1;
 	if (!ft_strcmp(str, "echo"))
 	{
 		if (!ft_strcmp(data->av[1], "-n"))
@@ -80,7 +77,7 @@ static int execbi_split(char *str, t_execdata *data)
 	}
 	else if (!ft_strcmp(str, "exit"))
 	{
-		ft_goodbye();		
+		ft_goodbye();
 		if (data->av[1] && ft_isnumber(data->av[1]))
 			i = ft_atoi(data->av[1]);
 		ft_deinit(data, NULL);
@@ -107,7 +104,7 @@ int			execbi(char *str, t_execdata *data)
 		ft_putnbr(getpid());
 		ft_putchar('\n');
 	}
-	else if (execbi_split(str, data) == 0)
+	else if (execbi_split(str, data, 1) == 0)
 		return (0);
 	return (1);
 }

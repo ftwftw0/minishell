@@ -76,4 +76,5 @@ void			deinit(void);
 void			setselectsignal(void);
 void			setallsignal(void);
 void			selecthandler(int signal);
+void			ft_elem_lstdel(t_elem **alst);
 #endif

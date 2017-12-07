@@ -94,7 +94,7 @@ static int	keep_reading_command(char *buff)
 	input = 0;
 	while (read(0, &input, 1))
 	{
-		g_cursor = &buff[ft_strlen(buff) + 1];
+		g_cursor = &buff[ft_strlen(buff)];
 		ret = checkinputs(input, &buff[ft_strlen(buff)], &g_cursor, NULL);
 		if (ret <= 1)
 			break ;
@@ -113,7 +113,8 @@ int			getinputs(char *buff, t_history *history)
 	{
 		if (ret == 0)
 			return (-1);
-		if ((ret = checkinputs(input, buff, &g_cursor, history)) == 1 || ret == -1)
+		ret = checkinputs(input, buff, &g_cursor, history);
+		if (ret == 1 || ret == -1)
 		{
 			while (!command_well_formated(buff))
 				keep_reading_command(buff);
@@ -121,7 +122,6 @@ int			getinputs(char *buff, t_history *history)
 		}
 		else if (ret == -1)
 			return (-1);
-		input = 0;
 	}
 	ft_putchar('\n');
 	return (ret);

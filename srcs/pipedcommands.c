@@ -26,18 +26,17 @@ static void	okay_allright(t_execdata *child, char **commands,
 int			pipedcommands(char *buff, t_execdata *child)
 {
 	char		**commands;
-	int			pipedfd[2];
+	int			pipedfd[3];
 	int			fdin;
-	int			i;
 
 	commands = ft_strsplit(buff, '|');
-	i = -1;
+	pipedfd[2] = -1;
 	fdin = 0;
-	while (commands[++i])
+	while (commands[++(pipedfd[2])])
 	{
 		pipe(pipedfd);
-		okay_allright(child, commands, fdin, i);
-		if (commands[i + 1])
+		okay_allright(child, commands, fdin, (pipedfd[2]));
+		if (commands[(pipedfd[2]) + 1])
 			child->fd[1] = pipedfd[1];
 		if (launchprogram(child, NULL) == 0)
 			return (0);
